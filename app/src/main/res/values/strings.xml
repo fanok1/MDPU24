@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">MDPU24</string>
+    <!-- Strings related to login -->
+    <string name="prompt_login">Логин</string>
+    <string name="prompt_password">Пароль</string>
+    <string name="prompt_password_confirm">Подтвердите пароль</string>
+    <string name="prompt_first_name">Имя</string>
+    <string name="prompt_last_name">Фамилие</string>
+    <string name="prompt_phone">Телефон</string>
+    <string name="prompt_email">Почта</string>
+    <string name="prompt_remember_password">Востановить пароль</string>
+    <string name="action_sign_in">Войти</string>
+    <string name="registration">Регистрация</string>
+    <string name="action_sign_in_short">Вход</string>
+    <string name="action_registration_short">Регистрация</string>
+    <string name="error_incorrect_login">Пользователя с таким именем не существует</string>
+    <string name="error_incorrect_password">Не верный пароль</string>
+    <string name="error_incorrect_password_confirm">Пароли должны совподать</string>
+    <string name="error_incorrect_phone">Не верныый номер телефона</string>
+    <string name="error_incorrect_email">Не верная почта</string>
+    <string name="error_field_required">Поле обязательно для заполнения</string>
+</resources>
