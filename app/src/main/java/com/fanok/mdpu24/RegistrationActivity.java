@@ -1,20 +1,16 @@
 package com.fanok.mdpu24;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -33,7 +29,9 @@ public class RegistrationActivity extends AppCompatActivity {
     private TextInputLayout layoutPasswordConfirm;
     private TextInputLayout layoutPhone;
     private TextInputLayout layoutEmail;
-    private Spinner group;
+    private EditText mGroup;
+
+    public static String groupName;
 
     public String getLogin() {
         return mLogin.getText().toString();
@@ -64,10 +62,17 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mGroup.setText(groupName);
+    }
+
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
@@ -88,27 +93,27 @@ public class RegistrationActivity extends AppCompatActivity {
         layoutPasswordConfirm = findViewById(R.id.layoutPasswordConfirm);
         layoutPhone = findViewById(R.id.layoutPhone);
         layoutEmail = findViewById(R.id.layoutEmail);
-        group = findViewById(R.id.group);
+        mGroup = findViewById(R.id.group);
 
         init();
-
-
 
 
     }
 
     private void init() {
 
-        ArrayAdapter<String> spinAdaptor = new ArrayAdapter<>(RegistrationActivity.this, android.R.layout.simple_spinner_item, getGroupList());
-        spinAdaptor.setDropDownViewResource(R.layout.dropdown);
-        group.setAdapter(spinAdaptor);
+        groupName = "";
 
+        Bundle arguments = getIntent().getExtras();
+        if (arguments != null)
+            mLogin.setText(Objects.requireNonNull(arguments.get("login")).toString());
 
+        mGroup.setKeyListener(null);
 
         mButtonRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               //
+                //
             }
         });
 
@@ -120,7 +125,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         layoutLogin.setErrorEnabled(true);
                         layoutLogin.setError(getResources().getString(R.string.error_field_required));
                     } else layoutLogin.setErrorEnabled(false);
-                }else layoutLogin.setErrorEnabled(false);
+                } else layoutLogin.setErrorEnabled(false);
             }
         });
 
@@ -132,7 +137,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         layoutFirstName.setErrorEnabled(true);
                         layoutFirstName.setError(getResources().getString(R.string.error_field_required));
                     } else layoutFirstName.setErrorEnabled(false);
-                }else layoutFirstName.setErrorEnabled(false);
+                } else layoutFirstName.setErrorEnabled(false);
             }
         });
 
@@ -144,7 +149,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         layoutLastName.setErrorEnabled(true);
                         layoutLastName.setError(getResources().getString(R.string.error_field_required));
                     } else layoutLastName.setErrorEnabled(false);
-                }else layoutLastName.setErrorEnabled(false);
+                } else layoutLastName.setErrorEnabled(false);
             }
         });
 
@@ -156,7 +161,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         layoutPassword.setErrorEnabled(true);
                         layoutPassword.setError(getResources().getString(R.string.error_field_required));
                     } else layoutPassword.setErrorEnabled(false);
-                }else layoutPassword.setErrorEnabled(false);
+                } else layoutPassword.setErrorEnabled(false);
             }
         });
 
@@ -168,7 +173,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         layoutPasswordConfirm.setErrorEnabled(true);
                         layoutPasswordConfirm.setError(getResources().getString(R.string.error_incorrect_password_confirm));
                     } else layoutPasswordConfirm.setErrorEnabled(false);
-                }else layoutPasswordConfirm.setErrorEnabled(false);
+                } else layoutPasswordConfirm.setErrorEnabled(false);
             }
         });
 
@@ -176,16 +181,16 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View view, boolean b) {
                 String phone = mPhone.getText().toString();
-                String patterm = "^(\\+38)?0(39|67|68|96|97|98|50|66|95|99|63|93|91|92|94)\\d{7}$";
+                String patterm = "^(\\+?38)?0(39|67|68|96|97|98|50|66|95|99|63|93|91|92|94)\\d{7}$";
                 if (!b) {
                     if (phone.length() == 0) {
                         layoutPhone.setErrorEnabled(true);
                         layoutPhone.setError(getResources().getString(R.string.error_field_required));
-                    }  else if (!phone.trim().matches(patterm)){
+                    } else if (!phone.trim().matches(patterm)) {
                         layoutPhone.setErrorEnabled(true);
                         layoutPhone.setError(getResources().getString(R.string.error_incorrect_phone));
-                    }  else layoutPhone.setErrorEnabled(false);
-                }else layoutPhone.setErrorEnabled(false);
+                    } else layoutPhone.setErrorEnabled(false);
+                } else layoutPhone.setErrorEnabled(false);
             }
         });
 
@@ -198,21 +203,36 @@ public class RegistrationActivity extends AppCompatActivity {
                     if (email.length() == 0) {
                         layoutEmail.setErrorEnabled(true);
                         layoutEmail.setError(getResources().getString(R.string.error_field_required));
-                    }  else if (!email.trim().matches(patterm)){
+                    } else if (!email.trim().matches(patterm)) {
                         layoutEmail.setErrorEnabled(true);
                         layoutEmail.setError(getResources().getString(R.string.error_incorrect_email));
-                    }  else layoutEmail.setErrorEnabled(false);
-                }else layoutEmail.setErrorEnabled(false);
+                    } else layoutEmail.setErrorEnabled(false);
+                } else layoutEmail.setErrorEnabled(false);
+            }
+        });
+
+        mGroup.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    showPopup(view);
+                }
+            }
+        });
+
+        mGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopup(view);
             }
         });
     }
 
-    private List<String> getGroupList() {
-        List<String> grouplist = new ArrayList<>();
-        for (int i=0; i<15; i++)
-            grouplist.add(Integer.toString(i));
-        return grouplist;
+    private void showPopup(View view) {
+        Intent intent = new Intent(view.getContext(), PopupGroupSearchActivity.class);
+        startActivity(intent);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

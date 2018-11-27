@@ -5,10 +5,12 @@
     <string name="prompt_password">Пароль</string>
     <string name="prompt_password_confirm">Подтвердите пароль</string>
     <string name="prompt_first_name">Имя</string>
-    <string name="prompt_last_name">Фамилие</string>
+    <string name="prompt_last_name">Фамилиея</string>
     <string name="prompt_phone">Телефон</string>
     <string name="prompt_email">Почта</string>
     <string name="prompt_remember_password">Востановить пароль</string>
+    <string name="prompt_search">Поиск</string>
+    <string name="prompt_group">Группа</string>
     <string name="action_sign_in">Войти</string>
     <string name="registration">Регистрация</string>
     <string name="action_sign_in_short">Вход</string>
