@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -24,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Button mButtonSignUp = findViewById(R.id.sign_in_button);
         Button mButtonRegistration = findViewById(R.id.registration_button);
+        TextView mResetPassword = findViewById(R.id.rememberPassword);
         mLogin = findViewById(R.id.login);
         mPassword = findViewById(R.id.password);
         layoutLogin = findViewById(R.id.layoutLogin);
@@ -48,23 +50,19 @@ public class LoginActivity extends AppCompatActivity {
         mLogin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (!b) {
-                    if (mLogin.getText().toString().length() == 0) {
-                        layoutLogin.setErrorEnabled(true);
-                        layoutLogin.setError(getResources().getString(R.string.error_field_required));
-                    } else layoutLogin.setErrorEnabled(false);
-                } else layoutLogin.setErrorEnabled(false);
+                RegistrationActivity.editTextEmpty(b, getLogin(), layoutLogin, getResources().getString(R.string.error_field_required));
             }
         });
         mPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (!b) {
-                    if (mPassword.getText().toString().length() == 0) {
-                        layoutPassword.setErrorEnabled(true);
-                        layoutPassword.setError(getResources().getString(R.string.error_field_required));
-                    } else layoutPassword.setErrorEnabled(false);
-                } else layoutPassword.setErrorEnabled(false);
+                RegistrationActivity.editTextEmpty(b, getPassword(), layoutPassword, getResources().getString(R.string.error_field_required));
+            }
+        });
+       mResetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), ResetPaswordActivity.class));
             }
         });
 

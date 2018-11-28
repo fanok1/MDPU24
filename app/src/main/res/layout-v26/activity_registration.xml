@@ -182,7 +182,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:autofillHints="phone"
+                    android:autofillHints="email"
                     android:hint="@string/prompt_email"
                     android:imeActionId="6"
                     android:imeActionLabel="@string/action_registration_short"

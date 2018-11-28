@@ -12,17 +12,20 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:fullBackupContent="false">
         <activity
             android:name=".SartActivity"
             android:label="@string/app_name">
             <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity"/>
         <activity android:name=".RegistrationActivity"/>
+        <activity android:name=".ResetPaswordActivity"/>
         <activity android:name=".PopupGroupSearchActivity"
             android:theme="@style/PopupGroup"/>
     </application>
