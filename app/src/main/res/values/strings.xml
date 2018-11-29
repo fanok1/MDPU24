@@ -11,19 +11,31 @@
     <string name="prompt_remember_password">Востановить пароль</string>
     <string name="prompt_search">Поиск</string>
     <string name="prompt_group">Группа</string>
+    <string name="prompt_reset_password">Новый пароль</string>
+    <string name="prompt_login_email_phone">Логин, почта или телефон</string>
+
+
     <string name="action_sign_in">Войти</string>
     <string name="registration">Регистрация</string>
     <string name="action_sign_in_short">Вход</string>
     <string name="action_registration_short">Регистрация</string>
+    <string name="reset_password">Сбросить пароль</string>
+    <string name="action_reset_short">Востановление пароля</string>
+
+
     <string name="error_incorrect_login">Пользователя с таким именем не существует</string>
     <string name="error_incorrect_password">Не верный пароль</string>
     <string name="error_incorrect_password_confirm">Пароли должны совподать</string>
     <string name="error_incorrect_phone">Не верныый номер телефона</string>
     <string name="error_incorrect_email">Не верная почта</string>
     <string name="error_incorrect_data">Не верно введенные данные</string>
+    <string name="error_server_not_response">Сервер не отчечает</string>
     <string name="error_field_required">Поле обязательно для заполнения</string>
-    <string name="reset_password">Сбросить пароль</string>
-    <string name="prompt_reset_password">Новый пароль</string>
-    <string name="action_reset_short">Востановление пароля</string>
-    <string name="prompt_login_email_phone">Логин, почта или телефон</string>
+    <string name="error_no_internet_conection">Нет подключения к интернету</string>
+
+    <!-- Url -->
+
+    <string name="login_api">https://api.github.com/users/vogella</string>
+
+
 </resources>

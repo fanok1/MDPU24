@@ -19,10 +19,9 @@ public class ResetPaswordActivity extends AppCompatActivity {
     private TextInputLayout layoutPasswordConfirm;
     private TextInputLayout layoutEmail;
 
-    public static String KEY_LOGIN = "login";
-    public static String KEY_PHONE = "phone";
-    public static String KEY_EMAIL = "email";
-
+    public static final String KEY_LOGIN = "login";
+    public static final String KEY_PHONE = "phone";
+    public static final String KEY_EMAIL = "email";
 
     public String getEmail() {
         return mEmail.getText().toString();
@@ -63,7 +62,7 @@ public class ResetPaswordActivity extends AppCompatActivity {
         mPasswordConfirm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                RegistrationActivity.equalsPassword(b, getPasswordConfirm(),getPassword(), layoutPasswordConfirm, getResources().getString(R.string.error_field_required));
+                RegistrationActivity.equalsPassword(b, getPasswordConfirm(),getPassword(), layoutPasswordConfirm, getResources().getString(R.string.error_incorrect_password_confirm));
             }
         });
 

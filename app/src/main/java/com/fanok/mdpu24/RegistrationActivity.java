@@ -195,7 +195,7 @@ public class RegistrationActivity extends ResetPaswordActivity {
         mPasswordConfirm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                equalsPassword(b, getPasswordConfirm(),getPassword(), layoutPasswordConfirm, getResources().getString(R.string.error_field_required));
+                equalsPassword(b, getPasswordConfirm(),getPassword(), layoutPasswordConfirm, getResources().getString(R.string.error_incorrect_password_confirm));
             }
         });
 
