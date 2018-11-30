@@ -24,10 +24,6 @@ public class RegistrationActivity extends ResetPaswordActivity {
     private EditText mPhone;
     private EditText mEmail;
     private EditText mGroup;
-    private TextInputLayout layoutLogin;
-    private TextInputLayout layoutFirstName;
-    private TextInputLayout layoutLastName;
-    private TextInputLayout layoutPassword;
     private TextInputLayout layoutPasswordConfirm;
     private TextInputLayout layoutPhone;
     private TextInputLayout layoutEmail;
@@ -105,10 +101,10 @@ public class RegistrationActivity extends ResetPaswordActivity {
         mPhone = findViewById(R.id.phone);
         mEmail = findViewById(R.id.email);
         mGroup = findViewById(R.id.group);
-        layoutLogin = findViewById(R.id.layoutLogin);
-        layoutFirstName = findViewById(R.id.layoutFirstName);
-        layoutLastName = findViewById(R.id.layoutLastName);
-        layoutPassword = findViewById(R.id.layoutPassword);
+        TextInputLayout layoutLogin = findViewById(R.id.layoutLogin);
+        TextInputLayout layoutFirstName = findViewById(R.id.layoutFirstName);
+        TextInputLayout layoutLastName = findViewById(R.id.layoutLastName);
+        TextInputLayout layoutPassword = findViewById(R.id.layoutPassword);
         layoutPasswordConfirm = findViewById(R.id.layoutPasswordConfirm);
         layoutPhone = findViewById(R.id.layoutPhone);
         layoutEmail = findViewById(R.id.layoutEmail);
@@ -151,91 +147,46 @@ public class RegistrationActivity extends ResetPaswordActivity {
 
         mGroup.setKeyListener(null);
 
-        mButtonRegistration.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for (int i=0; i<editTextList.size(); i++){
-                    ResetPaswordActivity.empty(editTextList.get(i).getText().toString(), layoutList.get(i), getResources().getString(R.string.error_field_required));
-                }
-                for (int i=0; i<layoutList.size(); i++){
-                    if (layoutList.get(i).isErrorEnabled()) return;
-                }
-
+        mButtonRegistration.setOnClickListener((View view) -> {
+            for (int i=0; i<editTextList.size(); i++){
+                ResetPaswordActivity.empty(editTextList.get(i).getText().toString(), layoutList.get(i), getResources().getString(R.string.error_field_required));
+            }
+            for (int i=0; i<layoutList.size(); i++){
+                if (layoutList.get(i).isErrorEnabled()) return;
             }
         });
 
-        mLogin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                editTextEmpty(b, getLogin(), layoutLogin, error);
-            }
-        });
+        for (int i = 0; i<editTextList.size(); i++){
+            EditText editText = editTextList.get(i);
+            TextInputLayout layout = layoutList.get(i);
+            editText.setOnFocusChangeListener((View view, boolean b) -> editTextEmpty(b, editText.getText().toString(), layout, error));
+        }
 
-        mFirstName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                editTextEmpty(b, getFirstName(), layoutFirstName, error);
-            }
-        });
-
-        mLastName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                editTextEmpty(b, getLastName(), layoutLastName, error);
-            }
-        });
-
-        mPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                editTextEmpty(b, getPassword(), layoutPassword, error);
-            }
-        });
-
-        mPasswordConfirm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                equalsPassword(b, getPasswordConfirm(),getPassword(), layoutPasswordConfirm, getResources().getString(R.string.error_incorrect_password_confirm));
-            }
-        });
-
-        mPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                String patterm = "^(\\+?38)?0(39|67|68|96|97|98|50|66|95|99|63|93|91|92|94)\\d{7}$";
-                checkPatern(b, getPhone(), patterm, layoutPhone, getResources().getString(R.string.error_incorrect_phone));
-                if (!b||!layoutPhone.isErrorEnabled()) mPhone.setText(convertPhoneFormat(getPhone()));
-            }
-        });
-
-
-
-
-        mEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                String patterm = "^[a-zA-Z0-9.-_]+@([a-z]+\\.+)+[a-z]+$";
-                checkPatern(b, getEmail(), patterm, layoutEmail, getResources().getString(R.string.error_incorrect_email));
-            }
-        });
-
-
-
-        mGroup.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b) {
-                    showPopup(view);
-                }
-            }
-        });
-
-        mGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        mGroup.setOnFocusChangeListener((View view, boolean b) ->  {
+            if (b) {
                 showPopup(view);
             }
         });
+
+        mPasswordConfirm.setOnFocusChangeListener((View view, boolean b) -> equalsPassword(b, getPasswordConfirm(),getPassword(), layoutPasswordConfirm, getResources().getString(R.string.error_incorrect_password_confirm)));
+
+        mPhone.setOnFocusChangeListener((View view, boolean b) ->  {
+            String patterm = "^(\\+?38)?0(39|67|68|96|97|98|50|66|95|99|63|93|91|92|94)\\d{7}$";
+            checkPatern(b, getPhone(), patterm, layoutPhone, getResources().getString(R.string.error_incorrect_phone));
+            if (!b||!layoutPhone.isErrorEnabled()) mPhone.setText(convertPhoneFormat(getPhone()));
+        });
+
+
+
+
+        mEmail.setOnFocusChangeListener((View view, boolean b) ->  {
+            String patterm = "^[a-zA-Z0-9.-_]+@([a-z]+\\.+)+[a-z]+$";
+            checkPatern(b, getEmail(), patterm, layoutEmail, getResources().getString(R.string.error_incorrect_email));
+        });
+
+
+
+        mGroup.setOnClickListener(this::showPopup);
     }
 
     public static void equalsPassword(boolean b, String passwordConfirm, String password, TextInputLayout layout, String error) {

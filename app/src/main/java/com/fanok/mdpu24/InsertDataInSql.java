@@ -18,6 +18,24 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+class ResponseBody {
+    private String res;
+    private View view;
+
+    public ResponseBody(String res, View view) {
+        this.res = res;
+        this.view = view;
+    }
+
+    public String getRes() {
+        return res;
+    }
+
+    public View getView() {
+        return view;
+    }
+}
+
 public class InsertDataInSql extends AsyncTask<String, String, String> {
 
     private String url;

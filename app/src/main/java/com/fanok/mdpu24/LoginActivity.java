@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
 
-import okhttp3.RequestBody;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -40,56 +39,35 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.login_progress);
         final String URL = getResources().getString(R.string.login_api);
 
-        mButtonSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ResetPaswordActivity.empty(getPassword(), layoutPassword, getResources().getString(R.string.error_field_required));
-                ResetPaswordActivity.empty(getLogin(), layoutLogin, getResources().getString(R.string.error_field_required));
-                if (layoutPassword.isErrorEnabled() || layoutLogin.isErrorEnabled()) return;
-                InsertDataInSql inSql = new InsertDataInSql(view, URL);
-                inSql.setProgressBar(progressBar);
-                inSql.setPostExecute(LoginActivity::postExecute);
+        mButtonSignUp.setOnClickListener((View view) -> {
+            ResetPaswordActivity.empty(getPassword(), layoutPassword, getResources().getString(R.string.error_field_required));
+            ResetPaswordActivity.empty(getLogin(), layoutLogin, getResources().getString(R.string.error_field_required));
+            if (layoutPassword.isErrorEnabled() || layoutLogin.isErrorEnabled()) return;
+            InsertDataInSql inSql = new InsertDataInSql(view, URL);
+            inSql.setProgressBar(progressBar);
+            inSql.setPostExecute(LoginActivity::postExecute);
 
-                try {
-                    if (inSql.isOnline())
-                        inSql.execute().get();
-                    else
-                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_no_internet_conection), Toast.LENGTH_SHORT).show();
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
-                }
-
-
+            try {
+                if (inSql.isOnline())
+                    inSql.execute().get();
+                else
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_no_internet_conection), Toast.LENGTH_SHORT).show();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
             }
         });
 
-        mButtonRegistration.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), RegistrationActivity.class);
-                intent.putExtra("login", getLogin());
-                startActivity(intent);
-            }
+        mButtonRegistration.setOnClickListener((View view) -> {
+            Intent intent = new Intent(view.getContext(), RegistrationActivity.class);
+            intent.putExtra("login", getLogin());
+            startActivity(intent);
         });
 
-        mLogin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                RegistrationActivity.editTextEmpty(b, getLogin(), layoutLogin, getResources().getString(R.string.error_field_required));
-            }
-        });
-        mPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                RegistrationActivity.editTextEmpty(b, getPassword(), layoutPassword, getResources().getString(R.string.error_field_required));
-            }
-        });
-        mResetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), ResetPaswordActivity.class));
-            }
-        });
+        mLogin.setOnFocusChangeListener((View view, boolean b) -> RegistrationActivity.editTextEmpty(b, getLogin(), layoutLogin, getResources().getString(R.string.error_field_required)));
+
+        mPassword.setOnFocusChangeListener((View view, boolean b) -> RegistrationActivity.editTextEmpty(b, getPassword(), layoutPassword, getResources().getString(R.string.error_field_required)));
+
+        mResetPassword.setOnClickListener((View view) -> startActivity(new Intent(view.getContext(), ResetPaswordActivity.class)));
 
     }
 

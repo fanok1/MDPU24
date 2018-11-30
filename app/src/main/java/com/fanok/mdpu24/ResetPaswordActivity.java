@@ -52,47 +52,31 @@ public class ResetPaswordActivity extends AppCompatActivity {
         layoutEmail = findViewById(R.id.layoutEmail);
         Button button = findViewById(R.id.reset_passwoed);
 
-        mPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                RegistrationActivity.editTextEmpty(b, getPassword(), layoutPassword, getResources().getString(R.string.error_field_required));
-            }
-        });
+        mPassword.setOnFocusChangeListener((View view, boolean b) ->
+            RegistrationActivity.editTextEmpty(b, getPassword(), layoutPassword, getResources().getString(R.string.error_field_required)));
 
-        mPasswordConfirm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                RegistrationActivity.equalsPassword(b, getPasswordConfirm(),getPassword(), layoutPasswordConfirm, getResources().getString(R.string.error_incorrect_password_confirm));
-            }
-        });
+        mPasswordConfirm.setOnFocusChangeListener((View view, boolean b) ->
+            RegistrationActivity.equalsPassword(b, getPasswordConfirm(),getPassword(), layoutPasswordConfirm, getResources().getString(R.string.error_incorrect_password_confirm)));
 
-        mEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
+        mEmail.setOnFocusChangeListener((View view, boolean b) -> {
             String patterm = "^([a-zA-Z0-9.-_]+@([a-z]+\\.+)+[a-z]+)|((\\+?38)?0(39|67|68|96|97|98|50|66|95|99|63|93|91|92|94)\\d{7})|([a-zA-Z]\\w*)$";
             RegistrationActivity.checkPatern(b, getEmail(), patterm, layoutEmail, getResources().getString(R.string.error_incorrect_data));
-            }
         });
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                empty(getPassword(), layoutPassword, getResources().getString(R.string.error_field_required));
-                empty(getPasswordConfirm(), layoutPasswordConfirm, getResources().getString(R.string.error_field_required));
-                empty(getEmail(), layoutEmail, getResources().getString(R.string.error_field_required));
-                if (layoutPassword.isErrorEnabled()||layoutPasswordConfirm.isErrorEnabled()||layoutPasswordConfirm.isErrorEnabled()) return;
+        button.setOnClickListener((View view) -> {
+            empty(getPassword(), layoutPassword, getResources().getString(R.string.error_field_required));
+            empty(getPasswordConfirm(), layoutPasswordConfirm, getResources().getString(R.string.error_field_required));
+            empty(getEmail(), layoutEmail, getResources().getString(R.string.error_field_required));
+            if (layoutPassword.isErrorEnabled()||layoutPasswordConfirm.isErrorEnabled()||layoutPasswordConfirm.isErrorEnabled()) return;
 
-                String phonePattern = "^(\\+?38)?0(39|67|68|96|97|98|50|66|95|99|63|93|91|92|94)\\d{7}$";
-                String emailPattern = "^[a-zA-Z0-9.-_]+@([a-z]+\\.+)+[a-z]+$";
-                String name = getEmail().trim();
-                if (name.matches(emailPattern)) insertDataResetPassword(name, getPassword().trim(), KEY_EMAIL);
-                else if (name.matches(phonePattern)){
-                    name = RegistrationActivity.convertPhoneFormat(name);
-                    insertDataResetPassword(name, getPassword().trim(), KEY_PHONE);
-                } else insertDataResetPassword(name, getPassword().trim(), KEY_LOGIN);
-
-
-            }
+            String phonePattern = "^(\\+?38)?0(39|67|68|96|97|98|50|66|95|99|63|93|91|92|94)\\d{7}$";
+            String emailPattern = "^[a-zA-Z0-9.-_]+@([a-z]+\\.+)+[a-z]+$";
+            String name = getEmail().trim();
+            if (name.matches(emailPattern)) insertDataResetPassword(name, getPassword().trim(), KEY_EMAIL);
+            else if (name.matches(phonePattern)){
+                name = RegistrationActivity.convertPhoneFormat(name);
+                insertDataResetPassword(name, getPassword().trim(), KEY_PHONE);
+            } else insertDataResetPassword(name, getPassword().trim(), KEY_LOGIN);
         });
 
 
