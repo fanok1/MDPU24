@@ -22,6 +22,7 @@ class ResponseBody {
     private String res;
     private View view;
 
+
     public ResponseBody(String res, View view) {
         this.res = res;
         this.view = view;
