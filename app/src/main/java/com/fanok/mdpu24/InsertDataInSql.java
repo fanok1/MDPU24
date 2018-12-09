@@ -10,122 +10,88 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import java.io.IOException;
+import java.util.HashMap;
 
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
-class ResponseBody {
-    private String res;
-    private View view;
-
-
-    public ResponseBody(String res, View view) {
-        this.res = res;
-        this.view = view;
-    }
-
-    public String getRes() {
-        return res;
-    }
-
-    public View getView() {
-        return view;
-    }
-}
-
-public class InsertDataInSql extends AsyncTask<String, String, String> {
+public class InsertDataInSql extends AsyncTask<String, String, Document> {
 
     private String url;
-    private String data;
+    private HashMap<String, String> data = new HashMap<>();
+    @SuppressLint("StaticFieldLeak")
     private ProgressBar progressBar;
+    @SuppressLint("StaticFieldLeak")
     private View view;
     private Function<ResponseBody, String> postExecute;
 
-    public void setPostExecute(Function<ResponseBody, String> postExecute) {
+
+    void setPostExecute(Function<ResponseBody, String> postExecute) {
         this.postExecute = postExecute;
     }
-
-    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     public InsertDataInSql(View view, String url, ProgressBar progressBar) {
         this.url = url;
         this.progressBar = progressBar;
         this.view = view;
-        this.data = "{}";
     }
 
-    public InsertDataInSql(View view, String url, String data, ProgressBar progressBar) {
-        this.url = url;
-        this.data = data;
-        this.progressBar = progressBar;
-        this.view = view;
-    }
-
-    public InsertDataInSql(View view, String url, String data) {
-
-        this.url = url;
-        this.data = data;
-        this.view = view;
-    }
 
     public InsertDataInSql(View view, String url) {
+
         this.url = url;
         this.view = view;
-        this.data="{}";
     }
 
     public void setProgressBar(ProgressBar progressBar) {
         this.progressBar = progressBar;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    void setData(String key, String value) {
+        this.data.put(key, value);
+    }
 
+    public void setData(HashMap<String, String> data) {
+        this.data = data;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        System.out.println("test");
         if (progressBar != null) progressBar.setVisibility(ProgressBar.VISIBLE);
     }
 
 
-
     @Override
-    protected String doInBackground(String... strings) {
+    protected Document doInBackground(String... strings) {
+        Connection connection = Jsoup.connect(url);
+        if (data.size() != 0) connection.data(data);
+        connection.method(Connection.Method.POST);
+        connection.userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36");
+        connection.referrer("https://mdpu.org.ua/");
         try {
-            OkHttpClient client = new OkHttpClient();
-            RequestBody body = RequestBody.create(JSON, data);
-            Request request = new Request.Builder()
-                    .url(url)
-                    .post(body)
-                    .build();
-            Response response = client.newCall(request).execute();
-            if (response.body() != null) {
-                return response.body().string();
-            }
-        } catch (Exception e) {
+            connection.execute();
+            return connection.post();
+        } catch (IOException e) {
             e.printStackTrace();
-            return "";
+            return null;
         }
 
-        return "";
+
     }
 
     @Override
-    protected void onPostExecute(String s) {
-        if (s.isEmpty()) Toast.makeText(view.getContext(), view.getResources().getString(R.string.error_no_internet_conection), Toast.LENGTH_SHORT).show();
+    protected void onPostExecute(Document s) {
+        if (s == null)
+            Toast.makeText(view.getContext(), view.getResources().getString(R.string.error_no_internet_conection), Toast.LENGTH_SHORT).show();
         if (progressBar != null) progressBar.setVisibility(ProgressBar.INVISIBLE);
         if (postExecute != null) postExecute.apply(new ResponseBody(s, view));
         super.onPostExecute(s);
     }
 
-    boolean isOnline() {
+    public boolean isOnline() {
 
         ConnectivityManager connectivityManager = (ConnectivityManager) view.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = null;

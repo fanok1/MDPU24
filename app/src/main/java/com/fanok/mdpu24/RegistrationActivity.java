@@ -148,69 +148,66 @@ public class RegistrationActivity extends ResetPaswordActivity {
         mGroup.setKeyListener(null);
 
         mButtonRegistration.setOnClickListener((View view) -> {
-            for (int i=0; i<editTextList.size(); i++){
+            for (int i = 0; i < editTextList.size(); i++) {
                 ResetPaswordActivity.empty(editTextList.get(i).getText().toString(), layoutList.get(i), getResources().getString(R.string.error_field_required));
             }
-            for (int i=0; i<layoutList.size(); i++){
+            for (int i = 0; i < layoutList.size(); i++) {
                 if (layoutList.get(i).isErrorEnabled()) return;
             }
         });
 
-        for (int i = 0; i<editTextList.size(); i++){
+        for (int i = 0; i < editTextList.size(); i++) {
             EditText editText = editTextList.get(i);
             TextInputLayout layout = layoutList.get(i);
             editText.setOnFocusChangeListener((View view, boolean b) -> editTextEmpty(b, editText.getText().toString(), layout, error));
         }
 
-        mGroup.setOnFocusChangeListener((View view, boolean b) ->  {
+        mGroup.setOnFocusChangeListener((View view, boolean b) -> {
             if (b) {
                 showPopup(view);
             }
         });
 
-        mPasswordConfirm.setOnFocusChangeListener((View view, boolean b) -> equalsPassword(b, getPasswordConfirm(),getPassword(), layoutPasswordConfirm, getResources().getString(R.string.error_incorrect_password_confirm)));
+        mPasswordConfirm.setOnFocusChangeListener((View view, boolean b) -> equalsPassword(b, getPasswordConfirm(), getPassword(), layoutPasswordConfirm, getResources().getString(R.string.error_incorrect_password_confirm)));
 
-        mPhone.setOnFocusChangeListener((View view, boolean b) ->  {
+        mPhone.setOnFocusChangeListener((View view, boolean b) -> {
             String patterm = "^(\\+?38)?0(39|67|68|96|97|98|50|66|95|99|63|93|91|92|94)\\d{7}$";
             checkPatern(b, getPhone(), patterm, layoutPhone, getResources().getString(R.string.error_incorrect_phone));
-            if (!b||!layoutPhone.isErrorEnabled()) mPhone.setText(convertPhoneFormat(getPhone()));
+            if (!b || !layoutPhone.isErrorEnabled()) mPhone.setText(convertPhoneFormat(getPhone()));
         });
 
 
-
-
-        mEmail.setOnFocusChangeListener((View view, boolean b) ->  {
+        mEmail.setOnFocusChangeListener((View view, boolean b) -> {
             String patterm = "^[a-zA-Z0-9.-_]+@([a-z]+\\.+)+[a-z]+$";
             checkPatern(b, getEmail(), patterm, layoutEmail, getResources().getString(R.string.error_incorrect_email));
         });
-
 
 
         mGroup.setOnClickListener(this::showPopup);
     }
 
     public static void equalsPassword(boolean b, String passwordConfirm, String password, TextInputLayout layout, String error) {
-        if (!b&&!passwordConfirm.equals(password)) {
+        if (!b && !passwordConfirm.equals(password)) {
             layout.setErrorEnabled(true);
             layout.setError(error);
         } else layout.setErrorEnabled(false);
     }
 
     public static void checkPatern(boolean b, String text, String patterm, TextInputLayout layout, String error) {
-        if (!b&&!text.trim().matches(patterm)){
+        if (!b && !text.trim().matches(patterm)) {
             layout.setErrorEnabled(true);
             layout.setError(error);
-        }else layout.setErrorEnabled(false);
+        } else layout.setErrorEnabled(false);
     }
 
     public static String convertPhoneFormat(String phone) {
-        if (phone.length()==12) return  "+"+phone;
-        else if (phone.length()==10) return "+38"+phone;
+        if (phone.length() == 12) return "+" + phone;
+        else if (phone.length() == 10) return "+38" + phone;
         else return phone;
     }
 
     public static void editTextEmpty(boolean b, String text, TextInputLayout layout, String error) {
-        if (!b&&text.length() == 0) {
+        if (!b && text.length() == 0) {
             layout.setErrorEnabled(true);
             layout.setError(error);
         } else layout.setErrorEnabled(false);

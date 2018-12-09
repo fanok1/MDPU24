@@ -33,9 +33,20 @@
     <string name="error_field_required">Поле обязательно для заполнения</string>
     <string name="error_no_internet_conection">Нет подключения к интернету</string>
 
+
+    <string name="title_activity_news">Новости</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="contentDescription">Icon</string>
+
+
+
     <!-- Url -->
 
-    <string name="login_api">https://api.github.com/users/vogella</string>
+    <string name="login_api">https://mdpu.org.ua/wp-admin/admin-ajax.php/</string>
 
 
 </resources>

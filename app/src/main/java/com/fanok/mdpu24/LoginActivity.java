@@ -12,9 +12,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.concurrent.ExecutionException;
-
-
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -45,16 +42,16 @@ public class LoginActivity extends AppCompatActivity {
             if (layoutPassword.isErrorEnabled() || layoutLogin.isErrorEnabled()) return;
             InsertDataInSql inSql = new InsertDataInSql(view, URL);
             inSql.setProgressBar(progressBar);
+
+            inSql.setData("login", getLogin());
+            inSql.setData("passwoed", getPassword());
+
             inSql.setPostExecute(LoginActivity::postExecute);
 
-            try {
-                if (inSql.isOnline())
-                    inSql.execute().get();
-                else
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_no_internet_conection), Toast.LENGTH_SHORT).show();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
+            if (inSql.isOnline())
+                inSql.execute();
+            else
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_no_internet_conection), Toast.LENGTH_SHORT).show();
         });
 
         mButtonRegistration.setOnClickListener((View view) -> {
@@ -80,11 +77,12 @@ public class LoginActivity extends AppCompatActivity {
         return mLogin.getText().toString();
     }
 
-    private static String postExecute (ResponseBody body){
-        /*if (res.equals("1")) {
-            view.getContext().startActivity();
-        }*/
-        Toast.makeText(body.getView().getContext(),body.getRes(),Toast.LENGTH_LONG).show();
+    private static String postExecute(ResponseBody body) {
+        //проверка
+        //save
+        body.getView().getContext().startActivity(new Intent(body.getView().getContext(), MainActivity.class));
+        //activity.finish();
+
         return null;
     }
 }

@@ -26,9 +26,11 @@ public class ResetPaswordActivity extends AppCompatActivity {
     public String getEmail() {
         return mEmail.getText().toString();
     }
+
     public String getPassword() {
         return mPassword.getText().toString();
     }
+
     public String getPasswordConfirm() {
         return mPasswordConfirm.getText().toString();
     }
@@ -53,10 +55,10 @@ public class ResetPaswordActivity extends AppCompatActivity {
         Button button = findViewById(R.id.reset_passwoed);
 
         mPassword.setOnFocusChangeListener((View view, boolean b) ->
-            RegistrationActivity.editTextEmpty(b, getPassword(), layoutPassword, getResources().getString(R.string.error_field_required)));
+                RegistrationActivity.editTextEmpty(b, getPassword(), layoutPassword, getResources().getString(R.string.error_field_required)));
 
         mPasswordConfirm.setOnFocusChangeListener((View view, boolean b) ->
-            RegistrationActivity.equalsPassword(b, getPasswordConfirm(),getPassword(), layoutPasswordConfirm, getResources().getString(R.string.error_incorrect_password_confirm)));
+                RegistrationActivity.equalsPassword(b, getPasswordConfirm(), getPassword(), layoutPasswordConfirm, getResources().getString(R.string.error_incorrect_password_confirm)));
 
         mEmail.setOnFocusChangeListener((View view, boolean b) -> {
             String patterm = "^([a-zA-Z0-9.-_]+@([a-z]+\\.+)+[a-z]+)|((\\+?38)?0(39|67|68|96|97|98|50|66|95|99|63|93|91|92|94)\\d{7})|([a-zA-Z]\\w*)$";
@@ -67,13 +69,15 @@ public class ResetPaswordActivity extends AppCompatActivity {
             empty(getPassword(), layoutPassword, getResources().getString(R.string.error_field_required));
             empty(getPasswordConfirm(), layoutPasswordConfirm, getResources().getString(R.string.error_field_required));
             empty(getEmail(), layoutEmail, getResources().getString(R.string.error_field_required));
-            if (layoutPassword.isErrorEnabled()||layoutPasswordConfirm.isErrorEnabled()||layoutPasswordConfirm.isErrorEnabled()) return;
+            if (layoutPassword.isErrorEnabled() || layoutPasswordConfirm.isErrorEnabled() || layoutPasswordConfirm.isErrorEnabled())
+                return;
 
             String phonePattern = "^(\\+?38)?0(39|67|68|96|97|98|50|66|95|99|63|93|91|92|94)\\d{7}$";
             String emailPattern = "^[a-zA-Z0-9.-_]+@([a-z]+\\.+)+[a-z]+$";
             String name = getEmail().trim();
-            if (name.matches(emailPattern)) insertDataResetPassword(name, getPassword().trim(), KEY_EMAIL);
-            else if (name.matches(phonePattern)){
+            if (name.matches(emailPattern))
+                insertDataResetPassword(name, getPassword().trim(), KEY_EMAIL);
+            else if (name.matches(phonePattern)) {
                 name = RegistrationActivity.convertPhoneFormat(name);
                 insertDataResetPassword(name, getPassword().trim(), KEY_PHONE);
             } else insertDataResetPassword(name, getPassword().trim(), KEY_LOGIN);
@@ -87,7 +91,7 @@ public class ResetPaswordActivity extends AppCompatActivity {
     }
 
     public static void empty(String text, TextInputLayout layout, String error) {
-        if (text.isEmpty()){
+        if (text.isEmpty()) {
             layout.setErrorEnabled(true);
             layout.setError(error);
         }
@@ -96,11 +100,9 @@ public class ResetPaswordActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // handle arrow click here
         if (item.getItemId() == android.R.id.home) {
-            finish(); // close this activity and return to preview activity (if there is any)
+            finish();
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

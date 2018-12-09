@@ -19,7 +19,7 @@ public class SartActivity extends AppCompatActivity {
 
         if (login.isEmpty()) startActivity(new Intent(this, LoginActivity.class));
         else {
-            //
+            startActivity(new Intent(this, MainActivity.class));
         }
         finish();
     }
