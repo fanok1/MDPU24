@@ -47,6 +47,7 @@
     <!-- Url -->
 
     <string name="login_api">https://mdpu.org.ua/wp-admin/admin-ajax.php/</string>
+    <string name="galary_description">Galary</string>
 
 
 </resources>

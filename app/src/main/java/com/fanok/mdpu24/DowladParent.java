@@ -55,8 +55,11 @@ public abstract class DowladParent extends AsyncTask<Void, Void, Void> {
         if (progressBar != null) progressBar.setVisibility(ProgressBar.VISIBLE);
     }
 
-
-
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        if (progressBar != null) progressBar.setVisibility(ProgressBar.INVISIBLE);
+    }
 
     @Override
     protected Void doInBackground(Void... voids) {

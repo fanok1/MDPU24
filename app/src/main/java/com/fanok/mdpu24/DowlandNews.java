@@ -3,7 +3,6 @@ package com.fanok.mdpu24;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fanok.mdpu24.Adapter.CastomAdapter;
@@ -55,7 +54,6 @@ public class DowlandNews extends DowladParent {
             view.getContext().startActivity(intent);
         });
 
-        if (getProgressBar() != null) getProgressBar().setVisibility(ProgressBar.INVISIBLE);
         super.onPostExecute(aVoid);
     }
 
