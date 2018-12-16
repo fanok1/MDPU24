@@ -1,11 +1,15 @@
 package com.fanok.mdpu24;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.fanok.mdpu24.Adapter.CastomAdapter;
+import com.fanok.mdpu24.Fragment.FragmentNewsUniversity;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -13,25 +17,47 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 
 public class DowlandNews extends DowladParent {
+    private static ArrayList<Article> articleList = new ArrayList<>();
+    @SuppressLint("StaticFieldLeak")
+    private ListView listView;
 
-    private ArrayList<Article> articleList;
-
-    public DowlandNews(View view, String url) {
+    public DowlandNews(@NonNull View view, @NonNull String url, @NonNull ListView listView) {
         super(view, url);
+        this.listView = listView;
+        setData("action", "load_more");
+        setData("post_style", "timeline");
+        setData("eael_show_image", "1");
+        setData("image_size", "medium");
+        setData("eael_show_title", "1");
+        setData("eael_show_excerpt", "0");
+        setData("eael_excerpt_length", "10");
+        setData("post_type", "post");
+        setData("posts_per_page", "10");
     }
 
+    public void clear() {
+        articleList.clear();
+    }
+
+    @Override
+    protected void onPreExecute() {
+        listView.setEnabled(false);
+        super.onPreExecute();
+    }
 
     @Override
     protected void parce(Document data) {
         Elements articles = data.getElementsByTag("article");
-        articleList = new ArrayList<>();
         for (int i = 1; i < articles.size(); i++) {
             Article article1Item = new Article();
             article1Item.setUrlArticle(articles.get(i).getElementsByTag("a").get(0).attr("href"));
             article1Item.setTitle(articles.get(i).getElementsByTag("a").get(0).attr("title"));
             article1Item.setDate(articles.get(i).getElementsByTag("time").get(0).attr("datetime"));
             String bg = articles.get(i).getElementsByClass("eael-timeline-post-image").get(0).attr("style");
-            bg = bg.substring(bg.indexOf("http"), bg.indexOf("')"));
+            if (bg.contains("http")) {
+                bg = bg.substring(bg.indexOf("http"), bg.indexOf("')"));
+
+            } else bg = "";
             article1Item.setImage(bg);
             articleList.add(article1Item);
         }
@@ -43,7 +69,6 @@ public class DowlandNews extends DowladParent {
             Toast.makeText(getView().getContext(), getView().getResources().getString(R.string.error_no_internet_conection), Toast.LENGTH_SHORT).show();
 
         CastomAdapter adapter = new CastomAdapter(getView().getContext(), articleList);
-        ListView listView = getView().findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
@@ -53,6 +78,34 @@ public class DowlandNews extends DowladParent {
             intent.putExtra("url", url);
             view.getContext().startActivity(intent);
         });
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE
+                        && (listView.getLastVisiblePosition() - listView.getHeaderViewsCount() -
+                        listView.getFooterViewsCount()) >= (adapter.getCount() - 1)) {
+
+                    if (new InsertDataInSql(view, null).isOnline()) {
+                        DowlandNews dowlandNews = new DowlandNews(getView(), getUrl(), listView);
+                        dowlandNews.setProgressBar(getView().findViewById(R.id.progressBarBotom));
+                        dowlandNews.setData("offset", String.valueOf(FragmentNewsUniversity.offset));
+                        FragmentNewsUniversity.offset += 10;
+                        dowlandNews.execute();
+                    } else
+                        Toast.makeText(view.getContext(), view.getResources().getString(R.string.error_no_internet_conection), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
+
+        listView.setSelection(adapter.getCount() - 10);
+
+        listView.setEnabled(true);
 
         super.onPostExecute(aVoid);
     }

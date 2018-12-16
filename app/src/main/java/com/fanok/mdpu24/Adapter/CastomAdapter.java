@@ -49,7 +49,9 @@ public class CastomAdapter  extends BaseAdapter{
         ImageView imageView = view.findViewById(R.id.icon);
         title.setText(model.get(i).getTitle());
         data.setText(model.get(i).getDate());
-        Picasso.get().load(model.get(i).getImage()).into(imageView);
+
+        if (!model.get(i).getImage().isEmpty())
+            Picasso.get().load(model.get(i).getImage()).into(imageView);
         return view;
     }
 }

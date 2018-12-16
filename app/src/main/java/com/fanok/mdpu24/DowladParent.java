@@ -2,6 +2,8 @@ package com.fanok.mdpu24;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -20,6 +22,18 @@ public abstract class DowladParent extends AsyncTask<Void, Void, Void> {
     private ProgressBar progressBar;
     @SuppressLint("StaticFieldLeak")
     private View view;
+    @SuppressLint("StaticFieldLeak")
+    private SwipeRefreshLayout refreshLayout;
+
+    DowladParent(@NonNull View view, @NonNull String url) {
+
+        this.url = url;
+        this.view = view;
+    }
+
+    public void setRefreshLayout(@NonNull SwipeRefreshLayout refreshLayout) {
+        this.refreshLayout = refreshLayout;
+    }
 
     public ProgressBar getProgressBar() {
         return progressBar;
@@ -29,24 +43,24 @@ public abstract class DowladParent extends AsyncTask<Void, Void, Void> {
         return view;
     }
 
-
-
-    DowladParent(View view, String url) {
-
-        this.url = url;
-        this.view = view;
+    public String getUrl() {
+        return url;
     }
 
-    public void setProgressBar(ProgressBar progressBar) {
+    public HashMap<String, String> getData() {
+        return data;
+    }
+
+    public void setData(@NonNull HashMap<String, String> data) {
+        this.data = data;
+    }
+
+    public void setProgressBar(@NonNull ProgressBar progressBar) {
         this.progressBar = progressBar;
     }
 
-    public void setData(String key, String value) {
+    public void setData(@NonNull String key, @NonNull String value) {
         this.data.put(key, value);
-    }
-
-    public void setData(HashMap<String, String> data) {
-        this.data = data;
     }
 
     @Override
@@ -58,6 +72,7 @@ public abstract class DowladParent extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        if (refreshLayout != null) refreshLayout.setRefreshing(false);
         if (progressBar != null) progressBar.setVisibility(ProgressBar.INVISIBLE);
     }
 
