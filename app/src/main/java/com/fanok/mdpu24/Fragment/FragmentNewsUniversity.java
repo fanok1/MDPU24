@@ -18,7 +18,6 @@ import com.fanok.mdpu24.R;
 public class FragmentNewsUniversity extends android.support.v4.app.Fragment {
 
     public static int offset = 0;
-    private DowlandNews dowlandNews;
 
     @Nullable
     @Override
@@ -40,7 +39,7 @@ public class FragmentNewsUniversity extends android.support.v4.app.Fragment {
 
     private void dowland(View view, ProgressBar progressBar, SwipeRefreshLayout refreshLayout, ListView listView) {
         final String URL = getResources().getString(R.string.login_api);
-        dowlandNews = new DowlandNews(view, URL, listView);
+        DowlandNews dowlandNews = new DowlandNews(view, URL, listView);
         if (new InsertDataInSql(view, null).isOnline()) {
             dowlandNews.clear();
             dowlandNews.setProgressBar(progressBar);

@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.r0adkll.slidr.Slidr;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -75,6 +77,7 @@ public class RegistrationActivity extends ResetPaswordActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        Slidr.attach(this);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);

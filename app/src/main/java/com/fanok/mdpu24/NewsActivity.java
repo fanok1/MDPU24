@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class NewsActivity extends AppCompatActivity {
 
@@ -19,7 +20,10 @@ public class NewsActivity extends AppCompatActivity {
         }
 
         String url = getIntent().getStringExtra("url");
+        String title = getIntent().getStringExtra("title");
 
+        TextView titleView = findViewById(R.id.title);
+        titleView.setText(title);
         FragmentManager fragMan = getSupportFragmentManager();
         DowlandNewsPage page = new DowlandNewsPage(findViewById(R.id.news_conteiner), url, fragMan);
         ProgressBar progressBar = findViewById(R.id.progressBar);

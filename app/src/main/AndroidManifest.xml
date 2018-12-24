@@ -23,15 +23,20 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".RegistrationActivity" />
-        <activity android:name=".ResetPaswordActivity" />
+
+        <activity
+            android:name=".RegistrationActivity"
+            android:theme="@style/AppTheme.SwipeOnClose" />
+        <activity
+            android:name=".ResetPaswordActivity"
+            android:theme="@style/AppTheme.SwipeOnClose" />
+
         <activity android:name=".NewsActivity"
-                  android:label="@string/title_activity_news"/>
+            android:label="@string/title_activity_news" />
         <activity
             android:name=".PopupGroupSearchActivity"
             android:theme="@style/PopupGroup" />

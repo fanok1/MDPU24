@@ -74,8 +74,10 @@ public class DowlandNews extends DowladParent {
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
             Article article = (Article) adapter.getItem(i);
             String url = article.getUrlArticle();
+            String title = article.getTitle();
             Intent intent = new Intent(view.getContext(), NewsActivity.class);
             intent.putExtra("url", url);
+            intent.putExtra("title", title);
             view.getContext().startActivity(intent);
         });
 
