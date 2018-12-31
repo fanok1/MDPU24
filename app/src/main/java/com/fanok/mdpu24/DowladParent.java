@@ -1,6 +1,9 @@
 package com.fanok.mdpu24;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -84,7 +87,6 @@ public abstract class DowladParent extends AsyncTask<Void, Void, Void> {
         connection.userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36");
         //connection.referrer("https://mdpu.org.ua/");
         try {
-            connection.execute();
             Document data = connection.post();
             parce(data);
 
@@ -96,5 +98,15 @@ public abstract class DowladParent extends AsyncTask<Void, Void, Void> {
     }
 
     protected void parce(Document data) {
+    }
+
+    public boolean isOnline() {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) view.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = null;
+        if (connectivityManager != null) {
+            activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        }
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

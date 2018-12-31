@@ -38,6 +38,17 @@ public class ResetPaswordActivity extends AppCompatActivity {
     }
 
 
+    public static void empty(String text, TextInputLayout layout, String error) {
+        if (!text.matches("^\\w+$")) {
+            layout.setErrorEnabled(true);
+            layout.setError(error);
+        }
+    }
+
+    private void insertDataResetPassword(String name, String password, String key) {
+        //отправить данные на сервер
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +69,7 @@ public class ResetPaswordActivity extends AppCompatActivity {
         Button button = findViewById(R.id.reset_passwoed);
 
         mPassword.setOnFocusChangeListener((View view, boolean b) ->
-                RegistrationActivity.editTextEmpty(b, getPassword(), layoutPassword, getResources().getString(R.string.error_field_required)));
+                RegistrationActivity.editTextEmpty(b, getPassword(), layoutPassword, getResources().getString(R.string.error_incorrect_data)));
 
         mPasswordConfirm.setOnFocusChangeListener((View view, boolean b) ->
                 RegistrationActivity.equalsPassword(b, getPasswordConfirm(), getPassword(), layoutPasswordConfirm, getResources().getString(R.string.error_incorrect_password_confirm)));
@@ -69,9 +80,9 @@ public class ResetPaswordActivity extends AppCompatActivity {
         });
 
         button.setOnClickListener((View view) -> {
-            empty(getPassword(), layoutPassword, getResources().getString(R.string.error_field_required));
-            empty(getPasswordConfirm(), layoutPasswordConfirm, getResources().getString(R.string.error_field_required));
-            empty(getEmail(), layoutEmail, getResources().getString(R.string.error_field_required));
+            empty(getPassword(), layoutPassword, getResources().getString(R.string.error_incorrect_data));
+            empty(getPasswordConfirm(), layoutPasswordConfirm, getResources().getString(R.string.error_incorrect_data));
+            empty(getEmail(), layoutEmail, getResources().getString(R.string.error_incorrect_data));
             if (layoutPassword.isErrorEnabled() || layoutPasswordConfirm.isErrorEnabled() || layoutPasswordConfirm.isErrorEnabled())
                 return;
 
@@ -87,17 +98,6 @@ public class ResetPaswordActivity extends AppCompatActivity {
         });
 
 
-    }
-
-    private void insertDataResetPassword(String name, String password, String key) {
-        //отправить данные на сервер
-    }
-
-    public static void empty(String text, TextInputLayout layout, String error) {
-        if (text.isEmpty()) {
-            layout.setErrorEnabled(true);
-            layout.setError(error);
-        }
     }
 
 

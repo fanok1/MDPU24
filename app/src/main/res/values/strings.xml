@@ -30,7 +30,6 @@
     <string name="error_incorrect_email">Не верная почта</string>
     <string name="error_incorrect_data">Не верно введенные данные</string>
     <string name="error_server_not_response">Сервер не отчечает</string>
-    <string name="error_field_required">Поле обязательно для заполнения</string>
     <string name="error_no_internet_conection">Нет подключения к интернету</string>
 
 
@@ -46,7 +45,10 @@
 
     <!-- Url -->
 
-    <string name="login_api">https://mdpu.org.ua/wp-admin/admin-ajax.php/</string>
+    <string name="login_api">https://mdpu24.000webhostapp.com/signup.php</string>
+    <string name="news_api">https://mdpu.org.ua/wp-admin/admin-ajax.php/</string>
+    <string name="registration_api">https://mdpu24.000webhostapp.com/user_add.php</string>
+
     <string name="galary_description">Galary</string>
 
 

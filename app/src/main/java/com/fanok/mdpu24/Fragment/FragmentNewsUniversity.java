@@ -12,7 +12,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fanok.mdpu24.DowlandNews;
-import com.fanok.mdpu24.InsertDataInSql;
 import com.fanok.mdpu24.R;
 
 public class FragmentNewsUniversity extends android.support.v4.app.Fragment {
@@ -38,17 +37,19 @@ public class FragmentNewsUniversity extends android.support.v4.app.Fragment {
     }
 
     private void dowland(View view, ProgressBar progressBar, SwipeRefreshLayout refreshLayout, ListView listView) {
-        final String URL = getResources().getString(R.string.login_api);
+        final String URL = getResources().getString(R.string.news_api);
         DowlandNews dowlandNews = new DowlandNews(view, URL, listView);
-        if (new InsertDataInSql(view, null).isOnline()) {
+        if (dowlandNews.isOnline()) {
             dowlandNews.clear();
             dowlandNews.setProgressBar(progressBar);
             dowlandNews.setRefreshLayout(refreshLayout);
             dowlandNews.setData("offset", "0");
             offset = 10;
             dowlandNews.execute();
-        } else
+        } else {
             Toast.makeText(view.getContext(), getResources().getString(R.string.error_no_internet_conection), Toast.LENGTH_SHORT).show();
+            refreshLayout.setRefreshing(false);
+        }
     }
 
 

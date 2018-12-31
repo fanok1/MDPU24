@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.r0adkll.slidr.Slidr;
 
@@ -26,9 +27,13 @@ public class RegistrationActivity extends ResetPaswordActivity {
     private EditText mPhone;
     private EditText mEmail;
     private EditText mGroup;
+    private TextInputLayout layoutFirstName;
     private TextInputLayout layoutPasswordConfirm;
     private TextInputLayout layoutPhone;
     private TextInputLayout layoutEmail;
+    private TextInputLayout layoutGroup;
+    private TextInputLayout layoutLastName;
+
 
     private List<EditText> editTextList;
     private List<TextInputLayout> layoutList;
@@ -91,6 +96,20 @@ public class RegistrationActivity extends ResetPaswordActivity {
 
     }
 
+    public static void equalsPassword(boolean b, String passwordConfirm, String password, TextInputLayout layout, String error) {
+        if (!b && !passwordConfirm.equals(password) && password.length() > 5) {
+            layout.setErrorEnabled(true);
+            layout.setError(error);
+        } else layout.setErrorEnabled(false);
+    }
+
+    public static void editTextEmpty(boolean b, String text, TextInputLayout layout, String error) {
+        if (!b && !text.matches("^[A-Za-z0-9._-]+$")) {
+            layout.setErrorEnabled(true);
+            layout.setError(error);
+        } else layout.setErrorEnabled(false);
+    }
+
     private void initVar() {
 
 
@@ -104,41 +123,49 @@ public class RegistrationActivity extends ResetPaswordActivity {
         mPhone = findViewById(R.id.phone);
         mEmail = findViewById(R.id.email);
         mGroup = findViewById(R.id.group);
+        layoutFirstName = findViewById(R.id.layoutFirstName);
+        layoutLastName = findViewById(R.id.layoutLastName);
         TextInputLayout layoutLogin = findViewById(R.id.layoutLogin);
-        TextInputLayout layoutFirstName = findViewById(R.id.layoutFirstName);
-        TextInputLayout layoutLastName = findViewById(R.id.layoutLastName);
         TextInputLayout layoutPassword = findViewById(R.id.layoutPassword);
         layoutPasswordConfirm = findViewById(R.id.layoutPasswordConfirm);
         layoutPhone = findViewById(R.id.layoutPhone);
         layoutEmail = findViewById(R.id.layoutEmail);
-        TextInputLayout layoutGroup = findViewById(R.id.layoutGroup);
+        layoutGroup = findViewById(R.id.layoutGroup);
 
-        error = getResources().getString(R.string.error_field_required);
+        error = getResources().getString(R.string.error_incorrect_data);
 
         editTextList = new ArrayList<>();
         layoutList = new ArrayList<>();
 
 
         editTextList.add(mLogin);
-        editTextList.add(mFirstName);
-        editTextList.add(mLastName);
         editTextList.add(mPassword);
         editTextList.add(mPasswordConfirm);
-        editTextList.add(mPhone);
-        editTextList.add(mEmail);
-        editTextList.add(mGroup);
 
         layoutList.add(layoutLogin);
-        layoutList.add(layoutFirstName);
-        layoutList.add(layoutLastName);
         layoutList.add(layoutPassword);
         layoutList.add(layoutPasswordConfirm);
+        layoutList.add(layoutFirstName);
+        layoutList.add(layoutLastName);
         layoutList.add(layoutPhone);
         layoutList.add(layoutEmail);
         layoutList.add(layoutGroup);
 
         groupName = "";
 
+    }
+
+    public static void checkPatern(boolean b, String text, String patterm, TextInputLayout layout, String error) {
+        if (!b && !text.trim().matches(patterm)) {
+            layout.setErrorEnabled(true);
+            layout.setError(error);
+        } else layout.setErrorEnabled(false);
+    }
+
+    public static String convertPhoneFormat(String phone) {
+        if (phone.length() == 12) return "+" + phone;
+        else if (phone.length() == 10) return "+38" + phone;
+        else return phone;
     }
 
     private void init() {
@@ -152,11 +179,35 @@ public class RegistrationActivity extends ResetPaswordActivity {
 
         mButtonRegistration.setOnClickListener((View view) -> {
             for (int i = 0; i < editTextList.size(); i++) {
-                ResetPaswordActivity.empty(editTextList.get(i).getText().toString(), layoutList.get(i), getResources().getString(R.string.error_field_required));
+                ResetPaswordActivity.empty(editTextList.get(i).getText().toString(), layoutList.get(i), error);
             }
+            if (groupName.isEmpty()) layoutGroup.setErrorEnabled(true);
+            checkPatern(false, getPhone(), "^(\\+?38)?0(39|67|68|96|97|98|50|66|95|99|63|93|91|92|94)\\d{7}$", layoutPhone, getResources().getString(R.string.error_incorrect_phone));
+            checkPatern(false, getEmail(), "^[a-zA-Z0-9.-_]+@([a-z]+\\.+)+[a-z]+$", layoutEmail, getResources().getString(R.string.error_incorrect_email));
+            checkPatern(false, getFirstName(), "^[А-Я][а-я]+$", layoutFirstName, error);
+            checkPatern(false, getLastName(), "^[А-Я][а-я]+$", layoutLastName, error);
+            equalsPassword(false, getPasswordConfirm(), getPassword(), layoutPasswordConfirm, getResources().getString(R.string.error_incorrect_password_confirm));
+
             for (int i = 0; i < layoutList.size(); i++) {
                 if (layoutList.get(i).isErrorEnabled()) return;
             }
+            InsertDataInSql dataInSql = new InsertDataInSql(view, getResources().getString(R.string.registration_api));
+            if (dataInSql.isOnline()) {
+                dataInSql.setProgressBar(findViewById(R.id.registration_progress));
+                dataInSql.setData("login", mLogin.getText().toString());
+                dataInSql.setData("password", mPassword.getText().toString());
+                dataInSql.setData("name", mFirstName.getText().toString() + " " + mLastName.getText().toString());
+                dataInSql.setData("group", mGroup.getText().toString());
+                dataInSql.setData("email", mEmail.getText().toString());
+                dataInSql.setData("phone", mPhone.getText().toString());
+
+                dataInSql.execute();
+
+
+            } else
+                Toast.makeText(this, getResources().getString(R.string.error_no_internet_conection), Toast.LENGTH_LONG).show();
+
+
         });
 
         for (int i = 0; i < editTextList.size(); i++) {
@@ -165,9 +216,20 @@ public class RegistrationActivity extends ResetPaswordActivity {
             editText.setOnFocusChangeListener((View view, boolean b) -> editTextEmpty(b, editText.getText().toString(), layout, error));
         }
 
+        mFirstName.setOnFocusChangeListener((view, b) -> {
+            checkPatern(b, getFirstName(), "^[А-Я][а-я]+$", layoutFirstName, error);
+        });
+
+        mLastName.setOnFocusChangeListener((view, b) -> {
+            checkPatern(b, getLastName(), "^[А-Я][а-я]+$", layoutLastName, error);
+        });
+
         mGroup.setOnFocusChangeListener((View view, boolean b) -> {
             if (b) {
                 showPopup(view);
+            } else {
+                if (mGroup.getText().toString().isEmpty()) layoutGroup.setErrorEnabled(true);
+                else layoutGroup.setErrorEnabled(false);
             }
         });
 
@@ -187,33 +249,6 @@ public class RegistrationActivity extends ResetPaswordActivity {
 
 
         mGroup.setOnClickListener(this::showPopup);
-    }
-
-    public static void equalsPassword(boolean b, String passwordConfirm, String password, TextInputLayout layout, String error) {
-        if (!b && !passwordConfirm.equals(password)) {
-            layout.setErrorEnabled(true);
-            layout.setError(error);
-        } else layout.setErrorEnabled(false);
-    }
-
-    public static void checkPatern(boolean b, String text, String patterm, TextInputLayout layout, String error) {
-        if (!b && !text.trim().matches(patterm)) {
-            layout.setErrorEnabled(true);
-            layout.setError(error);
-        } else layout.setErrorEnabled(false);
-    }
-
-    public static String convertPhoneFormat(String phone) {
-        if (phone.length() == 12) return "+" + phone;
-        else if (phone.length() == 10) return "+38" + phone;
-        else return phone;
-    }
-
-    public static void editTextEmpty(boolean b, String text, TextInputLayout layout, String error) {
-        if (!b && text.length() == 0) {
-            layout.setErrorEnabled(true);
-            layout.setError(error);
-        } else layout.setErrorEnabled(false);
     }
 
     private void showPopup(View view) {

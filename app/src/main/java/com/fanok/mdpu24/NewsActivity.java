@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class NewsActivity extends AppCompatActivity {
 
@@ -28,7 +29,11 @@ public class NewsActivity extends AppCompatActivity {
         DowlandNewsPage page = new DowlandNewsPage(findViewById(R.id.news_conteiner), url, fragMan);
         ProgressBar progressBar = findViewById(R.id.progressBar);
         page.setProgressBar(progressBar);
-        page.execute();
+        if (page.isOnline()) {
+            page.execute();
+        } else {
+            Toast.makeText(this, getResources().getString(R.string.error_no_internet_conection), Toast.LENGTH_SHORT).show();
+        }
     }
 
 

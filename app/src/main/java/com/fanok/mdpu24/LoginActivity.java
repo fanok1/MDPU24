@@ -12,6 +12,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -37,21 +43,35 @@ public class LoginActivity extends AppCompatActivity {
         final String URL = getResources().getString(R.string.login_api);
 
         mButtonSignUp.setOnClickListener((View view) -> {
-            ResetPaswordActivity.empty(getPassword(), layoutPassword, getResources().getString(R.string.error_field_required));
-            ResetPaswordActivity.empty(getLogin(), layoutLogin, getResources().getString(R.string.error_field_required));
-            if (layoutPassword.isErrorEnabled() || layoutLogin.isErrorEnabled()) return;
-            InsertDataInSql inSql = new InsertDataInSql(view, URL);
-            inSql.setProgressBar(progressBar);
-
-            inSql.setData("login", getLogin());
-            inSql.setData("passwoed", getPassword());
-
-            inSql.setPostExecute(LoginActivity::postExecute);
-
-            if (inSql.isOnline())
-                inSql.execute();
-            else
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_no_internet_conection), Toast.LENGTH_SHORT).show();
+            RegistrationActivity.editTextEmpty(false, getLogin(), layoutLogin, getResources().getString(R.string.error_incorrect_data));
+            RegistrationActivity.editTextEmpty(false, getPassword(), layoutPassword, getResources().getString(R.string.error_incorrect_data));
+            if (layoutLogin.isErrorEnabled() || layoutPassword.isErrorEnabled()) return;
+            JSONObject request = new JSONObject();
+            try {
+                request.put("user", getLogin());
+                request.put("password", getPassword());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            progressBar.setVisibility(ProgressBar.VISIBLE);
+            JsonObjectRequest jsArrayRequest = new JsonObjectRequest
+                    (Request.Method.POST, URL, request, response -> {
+                        try {
+                            if (response.getInt("status") == 1) {
+                                startActivity(new Intent(this, MainActivity.class));
+                            } else {
+                                progressBar.setVisibility(ProgressBar.INVISIBLE);
+                                Toast.makeText(getApplicationContext(), response.getString("massage"), Toast.LENGTH_LONG).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }, error -> {
+                        progressBar.setVisibility(ProgressBar.INVISIBLE);
+                        Toast.makeText(getApplicationContext(),
+                                error.getMessage(), Toast.LENGTH_LONG).show();
+                    });
+            MySingleton.getInstance(this).addToRequestQueue(jsArrayRequest);
         });
 
         mButtonRegistration.setOnClickListener((View view) -> {
@@ -60,12 +80,13 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        mLogin.setOnFocusChangeListener((View view, boolean b) -> RegistrationActivity.editTextEmpty(b, getLogin(), layoutLogin, getResources().getString(R.string.error_field_required)));
+        mLogin.setOnFocusChangeListener((View view, boolean b) -> RegistrationActivity.editTextEmpty(b, getLogin(), layoutLogin, getResources().getString(R.string.error_incorrect_data)));
 
-        mPassword.setOnFocusChangeListener((View view, boolean b) -> RegistrationActivity.editTextEmpty(b, getPassword(), layoutPassword, getResources().getString(R.string.error_field_required)));
+        mPassword.setOnFocusChangeListener((View view, boolean b) -> RegistrationActivity.editTextEmpty(b, getPassword(), layoutPassword, getResources().getString(R.string.error_incorrect_data)));
 
-        mResetPassword.setOnClickListener((View view) -> startActivity(new Intent(view.getContext(), ResetPaswordActivity.class)));
-
+        mResetPassword.setOnClickListener(view -> {
+            startActivity(new Intent(view.getContext(), ResetPaswordActivity.class));
+        });
     }
 
 
@@ -77,13 +98,5 @@ public class LoginActivity extends AppCompatActivity {
         return mLogin.getText().toString();
     }
 
-    private static String postExecute(ResponseBody body) {
-        //проверка
-        //save
-        body.getView().getContext().startActivity(new Intent(body.getView().getContext(), MainActivity.class));
-        //activity.finish();
-
-        return null;
-    }
 }
 

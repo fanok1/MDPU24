@@ -88,7 +88,7 @@ public class DowlandNews extends DowladParent {
                         && (listView.getLastVisiblePosition() - listView.getHeaderViewsCount() -
                         listView.getFooterViewsCount()) >= (adapter.getCount() - 1)) {
 
-                    if (new InsertDataInSql(view, null).isOnline()) {
+                    if (new InsertDataInSql(view, "").isOnline()) {
                         DowlandNews dowlandNews = new DowlandNews(getView(), getUrl(), listView);
                         dowlandNews.setProgressBar(getView().findViewById(R.id.progressBarBotom));
                         dowlandNews.setData("offset", String.valueOf(FragmentNewsUniversity.offset));
