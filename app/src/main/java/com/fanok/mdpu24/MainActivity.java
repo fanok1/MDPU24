@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new FragmentNewsUniversity()).commit();
-            //navigationView.setCheckedItem(R.id.nav_message);
+            navigationView.setCheckedItem(R.id.news);
         }
     }
 
@@ -56,17 +56,28 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.timetable) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.student) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.marks) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.absenteeism) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.chat) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.tasks) {
+
+        } else if (id == R.id.curator) {
+
+        } else if (id == R.id.news) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new FragmentNewsUniversity()).commit();
+        } else if (id == R.id.grafic) {
+
+        } else if (id == R.id.setngs) {
+
+        } else if (id == R.id.info) {
 
         }
 

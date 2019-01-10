@@ -44,12 +44,24 @@
 
 
     <!-- Url -->
-
-    <string name="login_api">https://mdpu24.000webhostapp.com/signup.php</string>
     <string name="news_api">https://mdpu.org.ua/wp-admin/admin-ajax.php/</string>
-    <string name="registration_api">https://mdpu24.000webhostapp.com/user_add.php</string>
+    <string name="server_api">https://mdpu24.000webhostapp.com/</string>
+
 
     <string name="galary_description">Galary</string>
+    <string name="timetable">Расписание</string>
+    <string name="students">Студенты</string>
+    <string name="marks">Оценки</string>
+    <string name="absenteeism">Пропуски</string>
+    <string name="chat">Чат</string>
+    <string name="connection">Связь</string>
+    <string name="task">Задания</string>
+    <string name="curator">Кураторский час</string>
+    <string name="system">системные</string>
+    <string name="grafic">График учебного процесса</string>
+    <string name="setngs">Настройки</string>
+    <string name="info">О программе</string>
+    <string name="news">Новости</string>
 
 
 </resources>

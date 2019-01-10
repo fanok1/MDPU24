@@ -37,8 +37,8 @@ public class FragmentNewsUniversity extends android.support.v4.app.Fragment {
     }
 
     private void dowland(View view, ProgressBar progressBar, SwipeRefreshLayout refreshLayout, ListView listView) {
-        final String URL = getResources().getString(R.string.news_api);
-        DowlandNews dowlandNews = new DowlandNews(view, URL, listView);
+        final String url = getResources().getString(R.string.news_api);
+        DowlandNews dowlandNews = new DowlandNews(view, url, listView);
         if (dowlandNews.isOnline()) {
             dowlandNews.clear();
             dowlandNews.setProgressBar(progressBar);

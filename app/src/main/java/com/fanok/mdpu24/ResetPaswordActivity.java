@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.r0adkll.slidr.Slidr;
 
@@ -17,13 +18,10 @@ public class ResetPaswordActivity extends AppCompatActivity {
     private EditText mEmail;
     private EditText mPassword;
     private EditText mPasswordConfirm;
-    private TextInputLayout layoutPassword;
     private TextInputLayout layoutPasswordConfirm;
+    private static final String patterm = "^([a-zA-Z0-9.-_]+@([a-z]+\\.+)+[a-z]+)|((\\+?38)?0(39|67|68|96|97|98|50|66|95|99|63|93|91|92|94)\\d{7})|(\\w+)$";
     private TextInputLayout layoutEmail;
-
-    public static final String KEY_LOGIN = "login";
-    public static final String KEY_PHONE = "phone";
-    public static final String KEY_EMAIL = "email";
+    private TextInputLayout layoutPassword;
 
     public String getEmail() {
         return mEmail.getText().toString();
@@ -45,10 +43,6 @@ public class ResetPaswordActivity extends AppCompatActivity {
         }
     }
 
-    private void insertDataResetPassword(String name, String password, String key) {
-        //отправить данные на сервер
-    }
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,42 +53,37 @@ public class ResetPaswordActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        final String url = getResources().getString(R.string.server_api) + "reset_password.php";
 
-        mPassword = findViewById(R.id.password);
-        mPasswordConfirm = findViewById(R.id.passwordConfirm);
-        mEmail = findViewById(R.id.email);
-        layoutPassword = findViewById(R.id.layoutPassword);
-        layoutPasswordConfirm = findViewById(R.id.layoutPasswordConfirm);
-        layoutEmail = findViewById(R.id.layoutEmail);
+
+        mPassword = findViewById(R.id.passwordReset);
+        mPasswordConfirm = findViewById(R.id.passwordConfirmReset);
+        mEmail = findViewById(R.id.emailReset);
+        layoutPassword = findViewById(R.id.layoutPasswordReset);
+        layoutPasswordConfirm = findViewById(R.id.layoutPasswordConfirmReset);
+        layoutEmail = findViewById(R.id.layoutEmailReset);
         Button button = findViewById(R.id.reset_passwoed);
 
-        mPassword.setOnFocusChangeListener((View view, boolean b) ->
-                RegistrationActivity.editTextEmpty(b, getPassword(), layoutPassword, getResources().getString(R.string.error_incorrect_data)));
 
-        mPasswordConfirm.setOnFocusChangeListener((View view, boolean b) ->
-                RegistrationActivity.equalsPassword(b, getPasswordConfirm(), getPassword(), layoutPasswordConfirm, getResources().getString(R.string.error_incorrect_password_confirm)));
+        mPasswordConfirm.setOnFocusChangeListener((view, b) -> RegistrationActivity.equalsPassword(b, getPasswordConfirm(), getPassword(), layoutPasswordConfirm, getResources().getString(R.string.error_incorrect_password_confirm)));
+        mPassword.setOnFocusChangeListener((View view, boolean b) -> RegistrationActivity.editTextEmpty(b, getPassword(), layoutPassword, getResources().getString(R.string.error_incorrect_data)));
+        mEmail.setOnFocusChangeListener((View view, boolean b) -> RegistrationActivity.checkPatern(b, getEmail(), patterm, layoutEmail, getResources().getString(R.string.error_incorrect_data)));
 
-        mEmail.setOnFocusChangeListener((View view, boolean b) -> {
-            String patterm = "^([a-zA-Z0-9.-_]+@([a-z]+\\.+)+[a-z]+)|((\\+?38)?0(39|67|68|96|97|98|50|66|95|99|63|93|91|92|94)\\d{7})|([a-zA-Z]\\w*)$";
-            RegistrationActivity.checkPatern(b, getEmail(), patterm, layoutEmail, getResources().getString(R.string.error_incorrect_data));
-        });
 
         button.setOnClickListener((View view) -> {
             empty(getPassword(), layoutPassword, getResources().getString(R.string.error_incorrect_data));
             empty(getPasswordConfirm(), layoutPasswordConfirm, getResources().getString(R.string.error_incorrect_data));
             empty(getEmail(), layoutEmail, getResources().getString(R.string.error_incorrect_data));
-            if (layoutPassword.isErrorEnabled() || layoutPasswordConfirm.isErrorEnabled() || layoutPasswordConfirm.isErrorEnabled())
+            if (layoutPassword.isErrorEnabled() || layoutPasswordConfirm.isErrorEnabled() || layoutEmail.isErrorEnabled())
                 return;
-
-            String phonePattern = "^(\\+?38)?0(39|67|68|96|97|98|50|66|95|99|63|93|91|92|94)\\d{7}$";
-            String emailPattern = "^[a-zA-Z0-9.-_]+@([a-z]+\\.+)+[a-z]+$";
-            String name = getEmail().trim();
-            if (name.matches(emailPattern))
-                insertDataResetPassword(name, getPassword().trim(), KEY_EMAIL);
-            else if (name.matches(phonePattern)) {
-                name = RegistrationActivity.convertPhoneFormat(name);
-                insertDataResetPassword(name, getPassword().trim(), KEY_PHONE);
-            } else insertDataResetPassword(name, getPassword().trim(), KEY_LOGIN);
+            InsertDataInSql inSql = new InsertDataInSql(view, url);
+            inSql.setData("login", getEmail());
+            inSql.setData("password", getPassword());
+            inSql.setProgressBar(view.findViewById(R.id.progressBar));
+            if (inSql.isOnline()) {
+                inSql.execute();
+            } else
+                Toast.makeText(this, getResources().getString(R.string.error_no_internet_conection), Toast.LENGTH_LONG).show();
         });
 
 

@@ -5,33 +5,62 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/timetable"
+            android:icon="@drawable/calendar_text"
+            android:title="@string/timetable" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/student"
+            android:icon="@drawable/account_multiple"
+            android:title="@string/students" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/marks"
+            android:icon="@drawable/finance"
+            android:title="@string/marks" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/absenteeism"
+            android:icon="@drawable/account_off"
+            android:title="@string/absenteeism" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/connection">
         <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/chat"
+                    android:icon="@drawable/message_text"
+                    android:title="@string/chat" />
+                <item
+                    android:id="@+id/tasks"
+                    android:icon="@drawable/calendar_check"
+                    android:title="@string/task" />
+                <item
+                    android:id="@+id/curator"
+                    android:icon="@drawable/clock"
+                    android:title="@string/curator" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/system">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/news"
+                    android:icon="@drawable/card_text"
+                    android:title="@string/news" />
+                <item
+                    android:id="@+id/grafic"
+                    android:icon="@drawable/file_pdf"
+                    android:title="@string/grafic" />
+                <item
+                    android:id="@+id/setngs"
+                    android:icon="@drawable/settings"
+                    android:title="@string/setngs" />
+                <item
+                    android:id="@+id/info"
+                    android:icon="@drawable/information"
+                    android:title="@string/info" />
+            </group>
         </menu>
     </item>
 

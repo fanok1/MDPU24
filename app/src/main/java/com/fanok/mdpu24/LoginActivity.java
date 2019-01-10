@@ -32,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        final String url = getResources().getString(R.string.server_api) + "signup.php";
+
         Button mButtonSignUp = findViewById(R.id.sign_in_button);
         Button mButtonRegistration = findViewById(R.id.registration_button);
         TextView mResetPassword = findViewById(R.id.rememberPassword);
@@ -40,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         layoutLogin = findViewById(R.id.layoutLogin);
         layoutPassword = findViewById(R.id.layoutPassword);
         progressBar = findViewById(R.id.login_progress);
-        final String URL = getResources().getString(R.string.login_api);
+
 
         mButtonSignUp.setOnClickListener((View view) -> {
             RegistrationActivity.editTextEmpty(false, getLogin(), layoutLogin, getResources().getString(R.string.error_incorrect_data));
@@ -55,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             progressBar.setVisibility(ProgressBar.VISIBLE);
             JsonObjectRequest jsArrayRequest = new JsonObjectRequest
-                    (Request.Method.POST, URL, request, response -> {
+                    (Request.Method.POST, url, request, response -> {
                         try {
                             if (response.getInt("status") == 1) {
                                 startActivity(new Intent(this, MainActivity.class));
@@ -84,9 +86,8 @@ public class LoginActivity extends AppCompatActivity {
 
         mPassword.setOnFocusChangeListener((View view, boolean b) -> RegistrationActivity.editTextEmpty(b, getPassword(), layoutPassword, getResources().getString(R.string.error_incorrect_data)));
 
-        mResetPassword.setOnClickListener(view -> {
-            startActivity(new Intent(view.getContext(), ResetPaswordActivity.class));
-        });
+        mResetPassword.setOnClickListener(view -> startActivity(new Intent(view.getContext(), ResetPaswordActivity.class)));
+
     }
 
 

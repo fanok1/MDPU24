@@ -8,9 +8,7 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -20,22 +18,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PopupGroupSearchActivity extends AppCompatActivity {
-    MaterialSearchView searchView;
-    ListView listView;
-    ArrayAdapter adapter;
-    Toolbar toolbar;
-    List<String> grouplist = new ArrayList<>();
+    private MaterialSearchView searchView;
+    private ListView listView;
+    private ArrayAdapter adapter;
+    private ArrayList<String> grouplist = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.popup_group_search);
 
+        final String url = getResources().getString(R.string.server_api) + "groups_get.php";
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-        getGroupList();
         getWindow().setLayout((int) (width * 0.8), (int) (height * 0.8));
 
 
@@ -46,29 +43,26 @@ public class PopupGroupSearchActivity extends AppCompatActivity {
         getWindow().setAttributes(params);
 
 
-        toolbar = findViewById(R.id.toolbarPopup);
+        Toolbar toolbar = findViewById(R.id.toolbarPopup);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar()!=null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("Выберете группу");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finishAfterTransition();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finishAfterTransition());
 
         listView = findViewById(R.id.listView);
         searchView = findViewById(R.id.searchView);
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, grouplist);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                RegistrationActivity.groupName = adapterView.getItemAtPosition(i).toString();
-                finish();
-            }
+
+        DowlandGroupsName groups = new DowlandGroupsName(findViewById(R.id.popup), url, listView, grouplist);
+        if (groups.isOnline()) {
+            groups.setProgressBar(findViewById(R.id.progressBarGroup));
+            groups.execute();
+        }
+
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            RegistrationActivity.groupName = adapterView.getItemAtPosition(i).toString();
+            finish();
         });
 
     }
@@ -110,11 +104,5 @@ public class PopupGroupSearchActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
-    }
-
-    private void getGroupList() {
-        for (int i = 0; i < 100; i++)
-            grouplist.add(Integer.toString(i));
-
     }
 }

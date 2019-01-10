@@ -34,7 +34,6 @@ public class RegistrationActivity extends ResetPaswordActivity {
     private TextInputLayout layoutGroup;
     private TextInputLayout layoutLastName;
 
-
     private List<EditText> editTextList;
     private List<TextInputLayout> layoutList;
 
@@ -97,7 +96,7 @@ public class RegistrationActivity extends ResetPaswordActivity {
     }
 
     public static void equalsPassword(boolean b, String passwordConfirm, String password, TextInputLayout layout, String error) {
-        if (!b && !passwordConfirm.equals(password) && password.length() > 5) {
+        if (!b && (!passwordConfirm.equals(password) || password.length() < 6)) {
             layout.setErrorEnabled(true);
             layout.setError(error);
         } else layout.setErrorEnabled(false);
@@ -111,7 +110,6 @@ public class RegistrationActivity extends ResetPaswordActivity {
     }
 
     private void initVar() {
-
 
         mButtonRegistration = findViewById(R.id.registration_button);
 
@@ -178,6 +176,7 @@ public class RegistrationActivity extends ResetPaswordActivity {
         mGroup.setKeyListener(null);
 
         mButtonRegistration.setOnClickListener((View view) -> {
+            final String url = getResources().getString(R.string.server_api) + "user_add.php";
             for (int i = 0; i < editTextList.size(); i++) {
                 ResetPaswordActivity.empty(editTextList.get(i).getText().toString(), layoutList.get(i), error);
             }
@@ -191,9 +190,9 @@ public class RegistrationActivity extends ResetPaswordActivity {
             for (int i = 0; i < layoutList.size(); i++) {
                 if (layoutList.get(i).isErrorEnabled()) return;
             }
-            InsertDataInSql dataInSql = new InsertDataInSql(view, getResources().getString(R.string.registration_api));
+            InsertDataInSql dataInSql = new InsertDataInSql(view, url);
             if (dataInSql.isOnline()) {
-                dataInSql.setProgressBar(findViewById(R.id.registration_progress));
+                dataInSql.setProgressBar(view.findViewById(R.id.registration_progress));
                 dataInSql.setData("login", mLogin.getText().toString());
                 dataInSql.setData("password", mPassword.getText().toString());
                 dataInSql.setData("name", mFirstName.getText().toString() + " " + mLastName.getText().toString());
@@ -216,13 +215,9 @@ public class RegistrationActivity extends ResetPaswordActivity {
             editText.setOnFocusChangeListener((View view, boolean b) -> editTextEmpty(b, editText.getText().toString(), layout, error));
         }
 
-        mFirstName.setOnFocusChangeListener((view, b) -> {
-            checkPatern(b, getFirstName(), "^[А-Я][а-я]+$", layoutFirstName, error);
-        });
+        mFirstName.setOnFocusChangeListener((view, b) -> checkPatern(b, getFirstName(), "^[А-Я][а-я]+$", layoutFirstName, error));
 
-        mLastName.setOnFocusChangeListener((view, b) -> {
-            checkPatern(b, getLastName(), "^[А-Я][а-я]+$", layoutLastName, error);
-        });
+        mLastName.setOnFocusChangeListener((view, b) -> checkPatern(b, getLastName(), "^[А-Я][а-я]+$", layoutLastName, error));
 
         mGroup.setOnFocusChangeListener((View view, boolean b) -> {
             if (b) {
