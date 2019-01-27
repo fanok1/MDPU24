@@ -13,7 +13,7 @@ public class Article {
             this.date = date;
         }
 
-        Article() {
+    public Article() {
         }
 
         public String getImage() {
@@ -24,11 +24,11 @@ public class Article {
             this.image = image;
         }
 
-        String getUrlArticle() {
+    public String getUrlArticle() {
             return urlArticle;
         }
 
-        void setUrlArticle(String urlArticle) {
+    public void setUrlArticle(String urlArticle) {
             this.urlArticle = urlArticle;
         }
 

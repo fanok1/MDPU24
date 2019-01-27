@@ -5,7 +5,7 @@
     <string name="prompt_password">Пароль</string>
     <string name="prompt_password_confirm">Подтвердите пароль</string>
     <string name="prompt_first_name">Имя</string>
-    <string name="prompt_last_name">Фамилиея</string>
+    <string name="prompt_last_name">Фамилия</string>
     <string name="prompt_phone">Телефон</string>
     <string name="prompt_email">Почта</string>
     <string name="prompt_remember_password">Востановить пароль</string>
@@ -31,21 +31,20 @@
     <string name="error_incorrect_data">Не верно введенные данные</string>
     <string name="error_server_not_response">Сервер не отчечает</string>
     <string name="error_no_internet_conection">Нет подключения к интернету</string>
+    <string name="error_required">Поле обязательно для заполнения</string>
 
 
     <string name="title_activity_news">Новости</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="contentDescription">Icon</string>
+    <string name="navigation_drawer_open">Открыть навигационное меню</string>
+    <string name="navigation_drawer_close">Закрыть навигационное меню</string>
+    <string name="nav_header_desc">Навигационный фон</string>
+    <string name="contentDescription">Иконка</string>
 
 
 
     <!-- Url -->
     <string name="news_api">https://mdpu.org.ua/wp-admin/admin-ajax.php/</string>
-    <string name="server_api">https://mdpu24.000webhostapp.com/</string>
+    <string name="server_api">http://mdpu.mcdir.ru/</string>
 
 
     <string name="galary_description">Galary</string>
@@ -62,6 +61,34 @@
     <string name="setngs">Настройки</string>
     <string name="info">О программе</string>
     <string name="news">Новости</string>
+    <string name="circle">circle</string>
+    <string name="Switch">Неделя</string>
+
+    <string name="mondey">ПН</string>
+    <string name="tuesday">ВТ</string>
+    <string name="wednesday">СР</string>
+    <string name="thursday">ЧТ</string>
+    <string name="friday">ПТ</string>
+    <string name="photo">photo</string>
+    <string name="Plus">Add</string>
+    <string name="contacts">Контакты</string>
+    <string name="confirn">Подтвердить</string>
+    <string name="cancel">Отменить</string>
+    <string name="predmet">Предметы</string>
+    <string name="prompt_predmet">Предмет</string>
+    <string name="action_info">Информация</string>
+    <string name="modul_1">Модуль 1</string>
+    <string name="modul_2">Модуль 2</string>
+    <string name="one">1</string>
+    <string name="tow">2</string>
+    <string name="thre">3</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="ok">OK</string>
+    <string name="prompt_date">Дата</string>
+    <string name="mark">Оценка</string>
+    <string name="para">Пара</string>
+    <string name="add">Добавить</string>
 
 
 </resources>
