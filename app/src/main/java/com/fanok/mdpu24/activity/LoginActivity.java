@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,8 +25,8 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText mLogin;
-    private EditText mPassword;
+    private android.support.design.widget.TextInputEditText mLogin;
+    private android.support.design.widget.TextInputEditText mPassword;
     private TextInputLayout layoutLogin;
     private TextInputLayout layoutPassword;
     private ProgressBar progressBar;
@@ -106,6 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString("name", response.getString("name"));
                             editor.putString("photo", response.getString("photo"));
                             editor.putInt("level", response.getInt("level"));
+                            editor.putString("groupName", response.getString("group"));
                             editor.apply();
                             startActivity(new Intent(this, MainActivity.class));
                         } else {

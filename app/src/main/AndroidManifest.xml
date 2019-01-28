@@ -82,6 +82,10 @@
             android:name=".activity.AddAbsenteeismActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.SwipeOnClose" />
+        <activity
+            android:name=".activity.SetingsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.SwipeOnClose" />
     </application>
 
 </manifest>

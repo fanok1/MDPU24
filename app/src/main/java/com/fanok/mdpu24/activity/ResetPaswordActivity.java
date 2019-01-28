@@ -8,7 +8,6 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.fanok.mdpu24.R;
@@ -18,9 +17,9 @@ import com.r0adkll.slidr.Slidr;
 
 public class ResetPaswordActivity extends AppCompatActivity {
 
-    private EditText mEmail;
-    private EditText mPassword;
-    private EditText mPasswordConfirm;
+    private android.support.design.widget.TextInputEditText mEmail;
+    private android.support.design.widget.TextInputEditText mPassword;
+    private android.support.design.widget.TextInputEditText mPasswordConfirm;
     private TextInputLayout layoutPasswordConfirm;
     private static final String patterm = "^([a-zA-Z0-9.-_]+@([a-z]+\\.+)+[a-z]+)|((\\+?38)?0(39|67|68|96|97|98|50|66|95|99|63|93|91|92|94)\\d{7})|(\\w+)$";
     private TextInputLayout layoutEmail;

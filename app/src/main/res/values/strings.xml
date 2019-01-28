@@ -89,6 +89,9 @@
     <string name="mark">Оценка</string>
     <string name="para">Пара</string>
     <string name="add">Добавить</string>
+    <string name="promt_chage_passsword">Нажмите чтобы изменить пароль</string>
+    <string name="exit">Выход</string>
+    <string name="prompt_photo">Фото</string>
 
 
 </resources>

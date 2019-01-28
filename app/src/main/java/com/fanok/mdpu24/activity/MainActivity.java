@@ -1,5 +1,6 @@
 package com.fanok.mdpu24.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity
         String nameValue = mPref.getString("name", "");
         String loginValue = mPref.getString("login", "");
         String imageValue = mPref.getString("photo", "");
+        TypeTimeTable.setGroup(mPref.getString("groupName", ""));
         level = mPref.getInt("level", 0);
 
         login.setText(loginValue);
@@ -74,7 +76,15 @@ public class MainActivity extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
         MenuItem student = navigationView.getMenu().findItem(R.id.student);
-        if (level == 3) student.setEnabled(false);
+        MenuItem chat = navigationView.getMenu().findItem(R.id.chat);
+        MenuItem tasks = navigationView.getMenu().findItem(R.id.tasks);
+        MenuItem curator = navigationView.getMenu().findItem(R.id.curator);
+        if (level == 3) {
+            student.setEnabled(false);
+            chat.setEnabled(false);
+            tasks.setEnabled(false);
+            curator.setEnabled(false);
+        }
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -171,7 +181,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.grafic) {
 
         } else if (id == R.id.setngs) {
-
+            startActivity(new Intent(this, SetingsActivity.class));
         } else if (id == R.id.info) {
 
         }

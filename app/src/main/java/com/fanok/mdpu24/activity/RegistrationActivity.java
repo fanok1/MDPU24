@@ -8,7 +8,6 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.fanok.mdpu24.R;
@@ -22,14 +21,14 @@ import java.util.Objects;
 
 public class RegistrationActivity extends ResetPaswordActivity {
     private Button mButtonRegistration;
-    private EditText mLogin;
-    private EditText mFirstName;
-    private EditText mLastName;
-    private EditText mPassword;
-    private EditText mPasswordConfirm;
-    private EditText mPhone;
-    private EditText mEmail;
-    private EditText mGroup;
+    private android.support.design.widget.TextInputEditText mLogin;
+    private android.support.design.widget.TextInputEditText mFirstName;
+    private android.support.design.widget.TextInputEditText mLastName;
+    private android.support.design.widget.TextInputEditText mPassword;
+    private android.support.design.widget.TextInputEditText mPasswordConfirm;
+    private android.support.design.widget.TextInputEditText mPhone;
+    private android.support.design.widget.TextInputEditText mEmail;
+    private android.support.design.widget.TextInputEditText mGroup;
     private TextInputLayout layoutFirstName;
     private TextInputLayout layoutPasswordConfirm;
     private TextInputLayout layoutPhone;
@@ -37,7 +36,7 @@ public class RegistrationActivity extends ResetPaswordActivity {
     private TextInputLayout layoutGroup;
     private TextInputLayout layoutLastName;
 
-    private List<EditText> editTextList;
+    private List<android.support.design.widget.TextInputEditText> editTextList;
     private List<TextInputLayout> layoutList;
 
 
@@ -186,7 +185,7 @@ public class RegistrationActivity extends ResetPaswordActivity {
         mButtonRegistration.setOnClickListener(this::onClick);
 
         for (int i = 0; i < editTextList.size(); i++) {
-            EditText editText = editTextList.get(i);
+            android.support.design.widget.TextInputEditText editText = editTextList.get(i);
             TextInputLayout layout = layoutList.get(i);
             editText.setOnFocusChangeListener((View view, boolean b) -> editTextEmpty(b, editText.getText().toString(), layout, error));
         }

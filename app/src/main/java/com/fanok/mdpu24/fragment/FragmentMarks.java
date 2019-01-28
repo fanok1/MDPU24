@@ -14,7 +14,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.fanok.mdpu24.ClickListnerMarks;
@@ -29,7 +28,7 @@ import com.fanok.mdpu24.dowland.InsertDataInSql;
 public class FragmentMarks extends android.support.v4.app.Fragment {
 
     public static boolean flag = false;
-    private EditText predmet;
+    private android.support.design.widget.TextInputEditText predmet;
     private TabLayout tab;
     private ViewPager pager;
 

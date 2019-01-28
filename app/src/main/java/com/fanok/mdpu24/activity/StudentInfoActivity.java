@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
-import android.widget.EditText;
 
 import com.fanok.mdpu24.R;
 import com.r0adkll.slidr.Slidr;
@@ -24,9 +23,9 @@ public class StudentInfoActivity extends ResetPaswordActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        EditText name = findViewById(R.id.name);
-        EditText email = findViewById(R.id.email);
-        EditText phone = findViewById(R.id.phone);
+        android.support.design.widget.TextInputEditText name = findViewById(R.id.name);
+        android.support.design.widget.TextInputEditText email = findViewById(R.id.email);
+        android.support.design.widget.TextInputEditText phone = findViewById(R.id.phone);
         Bundle arguments = getIntent().getExtras();
         name.setKeyListener(null);
         email.setKeyListener(null);

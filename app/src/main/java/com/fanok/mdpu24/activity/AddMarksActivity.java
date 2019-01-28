@@ -9,7 +9,6 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -25,10 +24,10 @@ public class AddMarksActivity extends AppCompatActivity {
     private static final int PREDMET = 0;
     private static final int NAME = 1;
     private static final int DATE = 2;
-    private EditText predmet;
-    private EditText name;
-    private EditText date;
-    private EditText mark;
+    private android.support.design.widget.TextInputEditText predmet;
+    private android.support.design.widget.TextInputEditText name;
+    private android.support.design.widget.TextInputEditText date;
+    private android.support.design.widget.TextInputEditText mark;
     private RadioButton modul1;
     private TextInputLayout layoutPredmet;
     private TextInputLayout layoutName;
@@ -36,15 +35,15 @@ public class AddMarksActivity extends AppCompatActivity {
     private TextInputLayout layoutMark;
     private int flag;
 
-    public EditText getName() {
+    public android.support.design.widget.TextInputEditText getName() {
         return name;
     }
 
-    public EditText getDate() {
+    public android.support.design.widget.TextInputEditText getDate() {
         return date;
     }
 
-    public EditText getMark() {
+    public android.support.design.widget.TextInputEditText getMark() {
         return mark;
     }
 
