@@ -69,8 +69,8 @@
     <string name="wednesday">СР</string>
     <string name="thursday">ЧТ</string>
     <string name="friday">ПТ</string>
-    <string name="photo">photo</string>
-    <string name="Plus">Add</string>
+    <string name="photo">Фото</string>
+    <string name="Plus">Добавить</string>
     <string name="contacts">Контакты</string>
     <string name="confirn">Подтвердить</string>
     <string name="cancel">Отменить</string>
@@ -92,6 +92,13 @@
     <string name="promt_chage_passsword">Нажмите чтобы изменить пароль</string>
     <string name="exit">Выход</string>
     <string name="prompt_photo">Фото</string>
+
+    <string name="decription_change_login">Вы можете выбрать новое имя пользователя в MDPU24\n\nВы можите использвоать символы a–z, A–Z, 0–9 и подчеркивание. Максимальная длина 20 символов</string>
+    <string name="decription_change_name">Вы можете выбрать новое имя в MDPU24\n\nИмя должно быть введеным в формвте Иванов И.И. Вы можете исполдьзовать любые буквы украинского алфавита.</string>
+    <string name="decription_change_password">Вы можете выбрать новый пароль в MDPU24\n\nВы можите использвоать символы a–z, A–Z, 0–9 и подчеркивание. Минимаьная длина 6 символов</string>
+    <string name="decription_change_phone">Вы можете выбрать новый номер телефона в MDPU24\n\nВведите телефон в международном фориате (+380…)</string>
+    <string name="decription_change_email">Вы можете выбрать новый email телефона в MDPU24\n\nВведите новый уникальный email</string>
+    <string name="progam_info">Приложение разработано\nФранцузевичем Александром</string>>
 
 
 </resources>

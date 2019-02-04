@@ -86,6 +86,25 @@
             android:name=".activity.SetingsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.SwipeOnClose" />
+        <activity
+            android:name=".activity.setings.ChangeSetingsParent"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.SwipeOnClose" />
+
+        <activity
+            android:name=".activity.setings.ChangeSetingsPassword"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.SwipeOnClose" />
+
+        <activity
+            android:name=".activity.setings.ChangeSetingsPhoto"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.SwipeOnClose" />
+        <activity
+            android:name=".activity.InfoActivity"
+            android:label="@string/info"
+            android:screenOrientation="portrait"
+            android:theme="@style/PopupGroup" />
     </application>
 
 </manifest>

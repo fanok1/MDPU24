@@ -18,10 +18,10 @@
         android:paddingTop="@dimen/nav_header_vertical_spacing">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/image_header"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:layout_gravity="center_horizontal|center_vertical" />
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:src="@android:color/holo_blue_dark" />
 
         <TextView
             android:id="@+id/image_text"
@@ -31,6 +31,12 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@android:color/white"
             android:textSize="35sp" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_header"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center_horizontal|center_vertical" />
     </FrameLayout>
 
     <TextView

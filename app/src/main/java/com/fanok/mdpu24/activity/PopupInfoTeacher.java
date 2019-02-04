@@ -15,6 +15,16 @@ import com.squareup.picasso.Picasso;
 import java.util.Objects;
 
 public class PopupInfoTeacher extends AppCompatActivity {
+    private ImageView imageView;
+    private TextView textView;
+
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public TextView getTextView() {
+        return textView;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,15 +45,16 @@ public class PopupInfoTeacher extends AppCompatActivity {
         params.y = 0;
         getWindow().setAttributes(params);
 
+        imageView = findViewById(R.id.photo);
+        textView = findViewById(R.id.name);
+        init();
+    }
+
+    protected void init() {
         Bundle arguments = getIntent().getExtras();
         String photo = Objects.requireNonNull(Objects.requireNonNull(arguments).get("photo")).toString();
         String name = Objects.requireNonNull(Objects.requireNonNull(arguments).get("name")).toString();
-
-        ImageView imageView = findViewById(R.id.photo);
-        TextView textView = findViewById(R.id.name);
-
         Picasso.get().load(photo).into(imageView);
         textView.setText(name);
-
     }
 }

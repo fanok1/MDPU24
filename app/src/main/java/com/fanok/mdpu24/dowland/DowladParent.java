@@ -85,7 +85,6 @@ public abstract class DowladParent extends AsyncTask<Void, Void, Void> {
         if (data.size() != 0) connection.data(data);
         connection.method(Connection.Method.POST);
         connection.userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36");
-        //connection.referrer("https://mdpu.org.ua/");
         try {
             Document data = connection.post();
             parce(data);

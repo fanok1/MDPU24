@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private int level;
+    private View headerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,30 +43,8 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-        View headerView = navigationView.getHeaderView(0);
-        TextView name = headerView.findViewById(R.id.name_header);
-        TextView login = headerView.findViewById(R.id.login_header);
-        TextView textImage = headerView.findViewById(R.id.image_text);
-        CircleImageView imageView = headerView.findViewById(R.id.image_header);
+        headerView = navigationView.getHeaderView(0);
 
-        SharedPreferences mPref = getSharedPreferences(StartActivity.PREF_NAME, MODE_PRIVATE);
-        String nameValue = mPref.getString("name", "");
-        String loginValue = mPref.getString("login", "");
-        String imageValue = mPref.getString("photo", "");
-        TypeTimeTable.setGroup(mPref.getString("groupName", ""));
-        level = mPref.getInt("level", 0);
-
-        login.setText(loginValue);
-        name.setText(nameValue);
-
-        if (!imageValue.equals("null")) {
-            Picasso.get().load(imageValue).into(imageView);
-            textImage.setVisibility(View.GONE);
-        } else if (!nameValue.equals("null")) {
-            String text = "" + nameValue.charAt(0) + nameValue.charAt(nameValue.indexOf(" ") + 1);
-            textImage.setText(text.toUpperCase());
-            imageView.setImageResource(android.support.v4.R.color.secondary_text_default_material_dark);
-        }
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -183,11 +162,35 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.setngs) {
             startActivity(new Intent(this, SetingsActivity.class));
         } else if (id == R.id.info) {
-
+            startActivity(new Intent(this, InfoActivity.class));
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView name = headerView.findViewById(R.id.name_header);
+        TextView login = headerView.findViewById(R.id.login_header);
+
+        SharedPreferences mPref = getSharedPreferences(StartActivity.PREF_NAME, MODE_PRIVATE);
+        String nameValue = mPref.getString("name", "");
+        String loginValue = mPref.getString("login", "");
+        String imageValue = mPref.getString("photo", "");
+        TypeTimeTable.setGroup(mPref.getString("groupName", ""));
+        level = mPref.getInt("level", 0);
+
+        login.setText(loginValue);
+        name.setText(nameValue);
+        TextView textImage = headerView.findViewById(R.id.image_text);
+        CircleImageView imageView = headerView.findViewById(R.id.image_header);
+        String text = "" + nameValue.charAt(0) + nameValue.charAt(nameValue.indexOf(" ") + 1);
+        textImage.setText(text.toUpperCase());
+        if (!imageValue.equals("null")) {
+            Picasso.get().load(imageValue).into(imageView);
+        }
     }
 }
