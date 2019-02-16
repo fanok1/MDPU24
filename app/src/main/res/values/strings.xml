@@ -98,7 +98,9 @@
     <string name="decription_change_password">Вы можете выбрать новый пароль в MDPU24\n\nВы можите использвоать символы a–z, A–Z, 0–9 и подчеркивание. Минимаьная длина 6 символов</string>
     <string name="decription_change_phone">Вы можете выбрать новый номер телефона в MDPU24\n\nВведите телефон в международном фориате (+380…)</string>
     <string name="decription_change_email">Вы можете выбрать новый email телефона в MDPU24\n\nВведите новый уникальный email</string>
-    <string name="progam_info">Приложение разработано\nФранцузевичем Александром</string>>
+    <string name="progam_info">Приложение разработано\nФранцузевичем Александром</string>
+    <string name="massage">Сообщение</string>
+    <string name="send">send</string>>
 
 
 </resources>

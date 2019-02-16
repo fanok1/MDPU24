@@ -1,5 +1,6 @@
 package com.fanok.mdpu24.fragment;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,22 +13,20 @@ import android.widget.ListView;
 import com.fanok.mdpu24.R;
 import com.fanok.mdpu24.StartActivity;
 import com.fanok.mdpu24.TypeTimeTable;
+import com.fanok.mdpu24.activity.ChatActivity;
 import com.fanok.mdpu24.dowland.DowlandGroupsCurator;
 
-import java.util.Objects;
-
-public class FragmentTimeTableSelect extends android.support.v4.app.Fragment {
+public class FragmentChatSelect extends android.support.v4.app.Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final String url = getResources().getString(R.string.server_api) + "get_groups_curator.php";
+        final String url = getResources().getString(R.string.server_api) + "get_groups_absenteeism.php";
         View view = inflater.inflate(R.layout.fragment_time_table_select, container, false);
+
         SharedPreferences mPref = view.getContext().getSharedPreferences(StartActivity.PREF_NAME, StartActivity.MODE_PRIVATE);
-
         SharedPreferences.Editor editor = mPref.edit();
-        editor.putInt("activity", 2);
+        editor.putInt("activity", 5);
         editor.apply();
-
 
         ListView listView = view.findViewById(R.id.listView);
         DowlandGroupsCurator dowland = new DowlandGroupsCurator(view, url, listView);
@@ -38,13 +37,8 @@ public class FragmentTimeTableSelect extends android.support.v4.app.Fragment {
             dowland.execute();
         }
         listView.setOnItemClickListener((adapterView, view1, i, l) -> {
-            if (i == 0) {
-                TypeTimeTable.setType(TypeTimeTable.teacherTimeTable);
-            } else {
-                TypeTimeTable.setType(TypeTimeTable.curatorTimeTable);
-                TypeTimeTable.setGroup(adapterView.getItemAtPosition(i).toString());
-            }
-            Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentTimeTable()).commit();
+            TypeTimeTable.setGroup(adapterView.getItemAtPosition(i).toString());
+            startActivity(new Intent(getContext(), ChatActivity.class));
         });
         return view;
     }

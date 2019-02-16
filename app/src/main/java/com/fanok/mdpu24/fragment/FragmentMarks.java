@@ -1,6 +1,7 @@
 package com.fanok.mdpu24.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.fanok.mdpu24.ClickListnerMarks;
 import com.fanok.mdpu24.R;
+import com.fanok.mdpu24.StartActivity;
 import com.fanok.mdpu24.TypeTimeTable;
 import com.fanok.mdpu24.activity.AddMarksActivity;
 import com.fanok.mdpu24.activity.PopupGroupSearchActivity;
@@ -91,6 +93,10 @@ public class FragmentMarks extends android.support.v4.app.Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         RegistrationActivity.groupName = "";
         View view = inflater.inflate(R.layout.fragment_marks, container, false);
+        SharedPreferences mPref = view.getContext().getSharedPreferences(StartActivity.PREF_NAME, StartActivity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mPref.edit();
+        editor.putInt("activity", 3);
+        editor.apply();
         setHasOptionsMenu(true);
         ClickListnerMarks.keybord = view.findViewById(R.id.keybord);
         predmet = view.findViewById(R.id.predmet);

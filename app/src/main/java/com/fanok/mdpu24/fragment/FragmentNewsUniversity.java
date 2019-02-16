@@ -1,5 +1,6 @@
 package com.fanok.mdpu24.fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fanok.mdpu24.R;
+import com.fanok.mdpu24.StartActivity;
 import com.fanok.mdpu24.dowland.DowlandNews;
 
 public class FragmentNewsUniversity extends android.support.v4.app.Fragment {
@@ -22,6 +24,12 @@ public class FragmentNewsUniversity extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_university, container, false);
+
+        SharedPreferences mPref = view.getContext().getSharedPreferences(StartActivity.PREF_NAME, StartActivity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mPref.edit();
+        editor.putInt("activity", 0);
+        editor.apply();
+
         ProgressBar progressBar = view.findViewById(R.id.progressBar);
         SwipeRefreshLayout refreshLayout = view.findViewById(R.id.refresh);
         ListView listView = view.findViewById(R.id.listView);

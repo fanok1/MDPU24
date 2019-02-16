@@ -22,11 +22,11 @@ import java.util.ArrayList;
 public class DowlandNews extends DowladParent {
     private static ArrayList<Article> articleList = new ArrayList<>();
     @SuppressLint("StaticFieldLeak")
-    private ListView listView;
+    private static ListView listView;
 
     public DowlandNews(@NonNull View view, @NonNull String url, @NonNull ListView listView) {
         super(view, url);
-        this.listView = listView;
+        DowlandNews.listView = listView;
         setData("action", "load_more");
         setData("post_style", "timeline");
         setData("eael_show_image", "1");

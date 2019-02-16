@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -18,9 +19,13 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.fanok.mdpu24.MySingleton;
 import com.fanok.mdpu24.R;
 import com.fanok.mdpu24.StartActivity;
+import com.fanok.mdpu24.dowland.InsertDataInSql;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Objects;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -94,6 +99,7 @@ public class LoginActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         progressBar.setVisibility(ProgressBar.VISIBLE);
         JsonObjectRequest jsArrayRequest = new JsonObjectRequest
                 (Request.Method.POST, url, request, response -> {
@@ -106,8 +112,25 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString("photo", response.getString("photo"));
                             editor.putInt("level", response.getInt("level"));
                             editor.putString("groupName", response.getString("group"));
-                            editor.apply();
-                            startActivity(new Intent(this, MainActivity.class));
+                            String urlToken = getResources().getString(R.string.server_api) + "add_token.php";
+                            InsertDataInSql inSql = new InsertDataInSql(view, urlToken);
+                            inSql.setData("login", response.getString("login"));
+                            inSql.setData("level", response.getString("level"));
+                            FirebaseInstanceId.getInstance().getInstanceId()
+                                    .addOnCompleteListener(task -> {
+                                        if (!task.isSuccessful()) {
+                                            Log.w("LoginActivity", "getInstanceId failed", task.getException());
+                                        } else {
+                                            String token = Objects.requireNonNull(task.getResult()).getToken();
+                                            if (inSql.isOnline()) {
+                                                inSql.setData("token", token);
+                                                inSql.execute();
+                                            }
+                                            editor.putString("token", token);
+                                        }
+                                        editor.apply();
+                                        startActivity(new Intent(this, MainActivity.class));
+                                    });
                         } else {
                             progressBar.setVisibility(ProgressBar.INVISIBLE);
                             Toast.makeText(getApplicationContext(), response.getString("massage"), Toast.LENGTH_LONG).show();

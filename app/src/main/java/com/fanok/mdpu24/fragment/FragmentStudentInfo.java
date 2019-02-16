@@ -1,6 +1,10 @@
 package com.fanok.mdpu24.fragment;
 
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,16 +27,25 @@ import com.fanok.mdpu24.adapter.PagerStudentInfoAdaptor;
 import com.fanok.mdpu24.dowland.DowlandStudentGroups;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
+import static com.fanok.mdpu24.activity.ChatActivity.ACTION;
 
 public class FragmentStudentInfo extends android.support.v4.app.Fragment {
 
     private int level;
-
+    private BroadcastReceiver br;
+    
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_time_table, container, false);
         SharedPreferences mPref = view.getContext().getSharedPreferences(StartActivity.PREF_NAME, StartActivity.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = mPref.edit();
+        editor.putInt("activity", 1);
+        editor.apply();
+
         level = mPref.getInt("level", 0);
         String login = mPref.getString("login", "");
         setHasOptionsMenu(true);
@@ -78,7 +91,28 @@ public class FragmentStudentInfo extends android.support.v4.app.Fragment {
             }
         });
 
+        br = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                NotificationManager notificationManager = (NotificationManager) Objects.requireNonNull(getView()).getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                if (notificationManager != null) {
+                    notificationManager.cancel(1);
+                }
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new FragmentStudentInfo()).commit();
+            }
+        };
+
+        IntentFilter intFilt = new IntentFilter(ACTION);
+        Objects.requireNonNull(getContext()).registerReceiver(br, intFilt);
+
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Objects.requireNonNull(getContext()).unregisterReceiver(br);
     }
 
     @Override

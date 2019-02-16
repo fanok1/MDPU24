@@ -1,5 +1,6 @@
 package com.fanok.mdpu24.fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fanok.mdpu24.R;
+import com.fanok.mdpu24.StartActivity;
 import com.fanok.mdpu24.Week;
 import com.fanok.mdpu24.adapter.PagerAdaptor;
 
@@ -26,6 +28,12 @@ public class FragmentTimeTable extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_time_table, container, false);
+
+        SharedPreferences mPref = view.getContext().getSharedPreferences(StartActivity.PREF_NAME, StartActivity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mPref.edit();
+        editor.putInt("activity", 2);
+        editor.apply();
+
         setHasOptionsMenu(true);
         TabLayout tab = view.findViewById(R.id.tabLayout);
         tab.addTab(tab.newTab().setText(R.string.mondey));

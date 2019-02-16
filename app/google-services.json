@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "334375455058",
+    "firebase_url": "https://mdpu-chat.firebaseio.com",
+    "project_id": "mdpu-chat",
+    "storage_bucket": "mdpu-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:334375455058:android:115ae31c370b4316",
+        "android_client_info": {
+          "package_name": "com.fanok.mdpu24"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "334375455058-v7afmligio08uc8fa8n14g8vlnd2if2i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fanok.mdpu24",
+            "certificate_hash": "ba5508874f1b4b914d88e653bd74eefa822f2e30"
+          }
+        },
+        {
+          "client_id": "334375455058-mk80nggp1tmpil7uciiplsd2vg4ko6vq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC82fM4bMM8T5Qh2zKyNIH6Li129Y8W5-U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "334375455058-mk80nggp1tmpil7uciiplsd2vg4ko6vq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

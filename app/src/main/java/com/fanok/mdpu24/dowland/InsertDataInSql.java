@@ -24,7 +24,9 @@ public class InsertDataInSql extends DowladParent {
     protected void onPostExecute(Void aVoid) {
         if (result == null)
             Toast.makeText(getView().getContext(), "Ошибка", Toast.LENGTH_LONG).show();
-        Toast.makeText(getView().getContext(), result, Toast.LENGTH_LONG).show();
+
+        if (!result.equals(""))
+            Toast.makeText(getView().getContext(), result, Toast.LENGTH_LONG).show();
         super.onPostExecute(aVoid);
     }
 }

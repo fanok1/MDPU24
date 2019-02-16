@@ -50,6 +50,10 @@ public abstract class DowladParent extends AsyncTask<Void, Void, Void> {
         return url;
     }
 
+    public SwipeRefreshLayout getRefreshLayout() {
+        return refreshLayout;
+    }
+
     public HashMap<String, String> getData() {
         return data;
     }

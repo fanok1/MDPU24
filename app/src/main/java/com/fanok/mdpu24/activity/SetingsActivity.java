@@ -19,6 +19,7 @@ import com.fanok.mdpu24.activity.setings.ChangeSetingsParent;
 import com.fanok.mdpu24.activity.setings.ChangeSetingsPassword;
 import com.fanok.mdpu24.activity.setings.ChangeSetingsPhoto;
 import com.fanok.mdpu24.dowland.DowlandJsonSettings;
+import com.fanok.mdpu24.dowland.InsertDataInSql;
 import com.r0adkll.slidr.Slidr;
 
 
@@ -40,9 +41,16 @@ public class SetingsActivity extends AppCompatActivity {
 
         findViewById(R.id.button).setOnClickListener(view -> {
             SharedPreferences preferences = getSharedPreferences(StartActivity.PREF_NAME, MODE_PRIVATE);
+            String url = getResources().getString(R.string.server_api) + "delete_token.php";
+            InsertDataInSql inSql = new InsertDataInSql(view, url);
+            String token = preferences.getString("token", "");
             SharedPreferences.Editor editor = preferences.edit();
             editor.clear();
             editor.apply();
+            if (inSql.isOnline()) {
+                inSql.setData("token", token);
+                inSql.execute();
+            }
             Intent intent = new Intent(view.getContext(), LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
