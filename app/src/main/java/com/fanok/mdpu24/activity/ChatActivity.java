@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -67,6 +69,7 @@ public class ChatActivity extends AppCompatActivity {
         editText.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i == KeyEvent.KEYCODE_BACK) {
                 onClick(textView);
+                return true;
             }
             return false;
         });
@@ -154,6 +157,7 @@ public class ChatActivity extends AppCompatActivity {
         String level = String.valueOf(mPref.getInt("level", 0));
         String name = String.valueOf(mPref.getString("name", ""));
         String photo = String.valueOf(mPref.getString("photo", ""));
+        MediaPlayer mp = MediaPlayer.create(this, R.raw.send);
         if (inSql.isOnline()) {
             inSql.setData("action", "insert");
             inSql.setData("author", login);
@@ -165,7 +169,16 @@ public class ChatActivity extends AppCompatActivity {
             ChatAdapter adapter = new ChatAdapter(view.getContext(), DowlandChat.getChat());
             listView.setAdapter(adapter);
             editText.setText("");
+            mp.start();
         } else
             Toast.makeText(view.getContext(), "Не удалось отправить сообщение", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -35,16 +35,16 @@ public class FragmentStudentInfo extends android.support.v4.app.Fragment {
 
     private int level;
     private BroadcastReceiver br;
-    
+    private SharedPreferences mPref;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_time_table, container, false);
-        SharedPreferences mPref = view.getContext().getSharedPreferences(StartActivity.PREF_NAME, StartActivity.MODE_PRIVATE);
+        mPref = view.getContext().getSharedPreferences(StartActivity.PREF_NAME, StartActivity.MODE_PRIVATE);
+        start(1);
 
-        SharedPreferences.Editor editor = mPref.edit();
-        editor.putInt("activity", 1);
-        editor.apply();
 
         level = mPref.getInt("level", 0);
         String login = mPref.getString("login", "");
@@ -54,7 +54,7 @@ public class FragmentStudentInfo extends android.support.v4.app.Fragment {
         FragmentManager fm = getChildFragmentManager();
         final String url = getResources().getString(R.string.server_api) + "get_groups_student.php";
 
-        DowlandStudentGroups dowland = new DowlandStudentGroups(view, url, tab, pager, fm);
+        DowlandStudentGroups dowland = getDowland(view, url, tab, pager, fm);
         if (dowland.isOnline()) {
             dowland.setData("login", login);
             dowland.setProgressBar(view.findViewById(R.id.progressBar));
@@ -66,7 +66,7 @@ public class FragmentStudentInfo extends android.support.v4.app.Fragment {
                 for (int i = 0; i < groups.size(); i++) {
                     tab.addTab(tab.newTab().setText(groups.get(i)));
                 }
-                FragmentPagerAdapter pagerAdapter = new PagerStudentInfoAdaptor(fm, tab.getTabCount(), groups);
+                FragmentPagerAdapter pagerAdapter = getAdapter(fm, tab.getTabCount(), groups);
                 pager.setAdapter(pagerAdapter);
                 pager.setOffscreenPageLimit(pagerAdapter.getCount() > 1 ? pagerAdapter.getCount() - 1 : 1);
                 pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tab));
@@ -109,6 +109,21 @@ public class FragmentStudentInfo extends android.support.v4.app.Fragment {
         return view;
     }
 
+    protected DowlandStudentGroups getDowland(View view, String url, TabLayout tab, ViewPager pager, FragmentManager fm) {
+        return new DowlandStudentGroups(view, url, tab, pager, fm);
+    }
+
+    protected FragmentPagerAdapter getAdapter(FragmentManager fm, int tabCount, ArrayList<String> groups) {
+        return new PagerStudentInfoAdaptor(fm, tabCount, groups);
+    }
+
+    protected void start(int n) {
+
+        SharedPreferences.Editor editor = mPref.edit();
+        editor.putInt("activity", n);
+        editor.apply();
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -120,13 +135,17 @@ public class FragmentStudentInfo extends android.support.v4.app.Fragment {
         inflater.inflate(R.menu.plus_button_menu, menu);
         menu.getItem(0).setOnMenuItemClickListener(menuItem -> {
             if (level != 4) return false;
-            Intent intent = new Intent(getContext(), RegistrationActivity.class);
-            intent.putExtra("login", "");
-            intent.putExtra("type", "1");
-            startActivity(intent);
+            startActivity(getIntent());
             return false;
         });
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    protected Intent getIntent() {
+        Intent intent = new Intent(getContext(), RegistrationActivity.class);
+        intent.putExtra("login", "");
+        intent.putExtra("type", "1");
+        return intent;
     }
 
 }

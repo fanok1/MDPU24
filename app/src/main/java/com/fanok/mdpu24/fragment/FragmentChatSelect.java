@@ -22,11 +22,7 @@ public class FragmentChatSelect extends android.support.v4.app.Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final String url = getResources().getString(R.string.server_api) + "get_groups_absenteeism.php";
         View view = inflater.inflate(R.layout.fragment_time_table_select, container, false);
-
         SharedPreferences mPref = view.getContext().getSharedPreferences(StartActivity.PREF_NAME, StartActivity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = mPref.edit();
-        editor.putInt("activity", 5);
-        editor.apply();
 
         ListView listView = view.findViewById(R.id.listView);
         DowlandGroupsCurator dowland = new DowlandGroupsCurator(view, url, listView);

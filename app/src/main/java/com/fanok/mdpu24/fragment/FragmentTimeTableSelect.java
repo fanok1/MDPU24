@@ -24,11 +24,6 @@ public class FragmentTimeTableSelect extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.fragment_time_table_select, container, false);
         SharedPreferences mPref = view.getContext().getSharedPreferences(StartActivity.PREF_NAME, StartActivity.MODE_PRIVATE);
 
-        SharedPreferences.Editor editor = mPref.edit();
-        editor.putInt("activity", 2);
-        editor.apply();
-
-
         ListView listView = view.findViewById(R.id.listView);
         DowlandGroupsCurator dowland = new DowlandGroupsCurator(view, url, listView);
         if (dowland.isOnline()) {

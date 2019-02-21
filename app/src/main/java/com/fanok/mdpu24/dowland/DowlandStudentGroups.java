@@ -53,11 +53,15 @@ public class DowlandStudentGroups extends DowladParent {
         for (int i = 0; i < grouplist.size(); i++) {
             tab.addTab(tab.newTab().setText(grouplist.get(i)));
         }
-        FragmentPagerAdapter pagerAdapter = new PagerStudentInfoAdaptor(fm, tab.getTabCount(), grouplist);
+        FragmentPagerAdapter pagerAdapter = getAdapter(fm, tab.getTabCount(), grouplist);
         pager.setAdapter(pagerAdapter);
         pager.setOffscreenPageLimit(pagerAdapter.getCount() > 1 ? pagerAdapter.getCount() - 1 : 1);
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tab));
         super.onPostExecute(aVoid);
+    }
+
+    protected FragmentPagerAdapter getAdapter(FragmentManager fm, int tabCount, ArrayList<String> groups) {
+        return new PagerStudentInfoAdaptor(fm, tabCount, groups);
     }
 }
 

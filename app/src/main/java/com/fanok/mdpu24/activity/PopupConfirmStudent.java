@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.fanok.mdpu24.R;
 import com.fanok.mdpu24.dowland.InsertDataInSql;
+import com.fanok.mdpu24.fragment.FragmentStudentInfo;
 
 import java.util.Objects;
 
@@ -58,6 +59,8 @@ public class PopupConfirmStudent extends AppCompatActivity {
             inSql.setProgressBar(findViewById(R.id.progressBar));
             inSql.execute();
             finish();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new FragmentStudentInfo()).commit();
         }
     }
 }

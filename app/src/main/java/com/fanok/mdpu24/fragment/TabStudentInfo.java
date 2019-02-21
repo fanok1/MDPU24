@@ -22,6 +22,13 @@ public class TabStudentInfo extends Fragment {
     private String name;
     private ListView listView;
 
+    public String getName() {
+        return name;
+    }
+
+    public ListView getListView() {
+        return listView;
+    }
 
     @Nullable
     @Override

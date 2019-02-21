@@ -24,6 +24,7 @@ import com.fanok.mdpu24.fragment.FragmentMarckSelect;
 import com.fanok.mdpu24.fragment.FragmentMarks;
 import com.fanok.mdpu24.fragment.FragmentNewsUniversity;
 import com.fanok.mdpu24.fragment.FragmentStudentInfo;
+import com.fanok.mdpu24.fragment.FragmentTask;
 import com.fanok.mdpu24.fragment.FragmentTimeTable;
 import com.fanok.mdpu24.fragment.FragmentTimeTableSelect;
 import com.squareup.picasso.Picasso;
@@ -72,81 +73,33 @@ public class MainActivity extends AppCompatActivity
             int activity = mPref.getInt("activity", 0);
             switch (activity) {
                 case 1:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new FragmentStudentInfo()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentStudentInfo()).commit();
                     navigationView.setCheckedItem(R.id.student);
                     break;
                 case 2:
-                    switch (level) {
-                        case 1:
-                        case 2:
-                            TypeTimeTable.setType(TypeTimeTable.studentTimeTable);
-                            break;
-                        case 3:
-                            TypeTimeTable.setType(TypeTimeTable.teacherTimeTable);
-                            break;
-                    }
-                    if (level == 4)
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentTimeTableSelect()).commit();
-                    else
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentTimeTable()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentTimeTable()).commit();
                     navigationView.setCheckedItem(R.id.timetable);
                     break;
                 case 3:
-                    switch (level) {
-                        case 1:
-                            TypeTimeTable.setType(TypeTimeTable.studentTimeTable);
-                            break;
-                        case 2:
-                            TypeTimeTable.setType(TypeTimeTable.starostaTimeTable);
-                            break;
-                        case 3:
-                            TypeTimeTable.setType(TypeTimeTable.teacherTimeTable);
-                            break;
-                        case 4:
-                            TypeTimeTable.setType(TypeTimeTable.curatorTimeTable);
-                            break;
-                    }
-                    if (level == 3 || level == 4) {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentMarckSelect()).commit();
-                    } else
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentMarks()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentMarks()).commit();
                     navigationView.setCheckedItem(R.id.marks);
                     break;
                 case 4:
-                    switch (level) {
-                        case 1:
-                            TypeTimeTable.setType(TypeTimeTable.studentTimeTable);
-                            break;
-                        case 2:
-                            TypeTimeTable.setType(TypeTimeTable.starostaTimeTable);
-                            break;
-                        case 3:
-                            TypeTimeTable.setType(TypeTimeTable.teacherTimeTable);
-                            break;
-                        case 4:
-                            TypeTimeTable.setType(TypeTimeTable.curatorTimeTable);
-                            break;
-                    }
-                    if (level != 3) {
-                        if (level == 4)
-                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentAbsenteeismSelect()).commit();
-                        else
-                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentAbsenteeism()).commit();
-                    }
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentAbsenteeism()).commit();
                     navigationView.setCheckedItem(R.id.absenteeism);
                     break;
                 case 5:
-                    if (level == 4) {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentChatSelect()).commit();
-                    } else if (level != 3)
-                        startActivity(new Intent(this, ChatActivity.class));
-                    navigationView.setCheckedItem(R.id.chat);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentNewsUniversity()).commit();
+                    startActivity(new Intent(this, ChatActivity.class));
+                    navigationView.setCheckedItem(R.id.news);
+                    break;
+                case 6:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentTask()).commit();
+                    navigationView.setCheckedItem(R.id.tasks);
                     break;
                 case 0:
                 default:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            new FragmentNewsUniversity()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentNewsUniversity()).commit();
                     navigationView.setCheckedItem(R.id.news);
                     break;
             }
@@ -237,7 +190,9 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(this, ChatActivity.class));
 
         } else if (id == R.id.tasks) {
-
+            if (level != 3) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentTask()).commit();
+            }
         } else if (id == R.id.curator) {
 
         } else if (id == R.id.news) {

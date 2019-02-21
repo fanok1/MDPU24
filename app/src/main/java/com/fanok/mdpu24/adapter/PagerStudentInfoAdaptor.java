@@ -21,6 +21,10 @@ public class PagerStudentInfoAdaptor extends FragmentPagerAdapter {
         PagerStudentInfoAdaptor.name = name;
     }
 
+    public static ArrayList<String> getName() {
+        return name;
+    }
+
     @Override
     public Fragment getItem(int position) {
         TabStudentInfo tabStudentInfo = new TabStudentInfo();

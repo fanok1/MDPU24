@@ -18,13 +18,32 @@ public class DowlandJsonStudentInfo extends DowladParent {
     private ListView listView;
     private String name;
     private String result;
+    private SharedPreferences.Editor editor;
 
     public DowlandJsonStudentInfo(@NonNull View view, @NonNull String url, ListView listView, String name) {
         super(view, url);
         this.listView = listView;
         this.name = name;
-
         setData("name", name);
+
+        SharedPreferences preferences = getView().getContext().getSharedPreferences(StartActivity.PREF_NAME, MODE_PRIVATE);
+        editor = preferences.edit();
+    }
+
+    public SharedPreferences.Editor getEditor() {
+        return editor;
+    }
+
+    public ListView getListView() {
+        return listView;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getResult() {
+        return result;
     }
 
     @Override
@@ -34,8 +53,6 @@ public class DowlandJsonStudentInfo extends DowladParent {
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        SharedPreferences preferences = getView().getContext().getSharedPreferences(StartActivity.PREF_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
         editor.putString("Student_" + name, result);
         editor.apply();
         super.onPostExecute(aVoid);
