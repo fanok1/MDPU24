@@ -33,7 +33,7 @@ public class FragmentChatSelect extends android.support.v4.app.Fragment {
             dowland.execute();
         }
         listView.setOnItemClickListener((adapterView, view1, i, l) -> {
-            TypeTimeTable.setGroup(adapterView.getItemAtPosition(i).toString());
+            TypeTimeTable.setGroup(view.getContext(), adapterView.getItemAtPosition(i).toString());
             startActivity(new Intent(getContext(), ChatActivity.class));
         });
         return view;

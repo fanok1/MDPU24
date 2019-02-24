@@ -57,8 +57,7 @@ public class TaskAdapter extends BaseAdapter {
         }
 
 
-        if (level == 4) holder.name.setVisibility(View.VISIBLE);
-        else holder.name.setVisibility(View.GONE);
+        show(holder);
         //if (i!=0) {
         holder.name.setText(model.get(i).getName());
         holder.them.setText(model.get(i).getText());
@@ -67,7 +66,12 @@ public class TaskAdapter extends BaseAdapter {
         return view;
     }
 
-    public class Holder {
+    protected void show(Holder holder) {
+        if (level == 4) holder.name.setVisibility(View.VISIBLE);
+        else holder.name.setVisibility(View.GONE);
+    }
+
+    class Holder {
         TextView name;
         TextView them;
         TextView date;

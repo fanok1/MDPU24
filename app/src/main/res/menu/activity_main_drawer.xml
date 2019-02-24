@@ -20,6 +20,10 @@
             android:id="@+id/absenteeism"
             android:icon="@drawable/account_off"
             android:title="@string/absenteeism" />
+        <item
+            android:id="@+id/projects"
+            android:icon="@drawable/school"
+            android:title="@string/projects" />
     </group>
 
     <item android:title="@string/connection">

@@ -1,6 +1,7 @@
 package com.fanok.mdpu24.dowland;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.view.Gravity;
 import android.widget.ListView;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import com.fanok.mdpu24.MyTask;
 import com.fanok.mdpu24.R;
+import com.fanok.mdpu24.StartActivity;
 import com.fanok.mdpu24.adapter.TaskAdapter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -29,6 +31,14 @@ public class ParceJsonTask extends AsyncTask<Void, Void, ArrayList<MyTask>> {
     public ParceJsonTask(String json, ListView listView) {
         this.json = json;
         this.listView = listView;
+    }
+
+    public ListView getListView() {
+        return listView;
+    }
+
+    public ProgressBar getProgressBar() {
+        return progressBar;
     }
 
     public void setProgressBar(ProgressBar progressBar) {
@@ -64,7 +74,11 @@ public class ParceJsonTask extends AsyncTask<Void, Void, ArrayList<MyTask>> {
         super.onPostExecute(tasks);
         TaskAdapter adapter = new TaskAdapter(listView.getContext(), tasks);
         listView.setAdapter(adapter);
-        listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
+
+        SharedPreferences mPref = listView.getContext().getSharedPreferences(StartActivity.PREF_NAME, StartActivity.MODE_PRIVATE);
+        int level = mPref.getInt("level", 0);
+
+        if (level == 4) listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
             PopupMenu popupMenu = new PopupMenu(view.getContext(), view, Gravity.END);
             MyTask task = (MyTask) adapter.getItem(i);
             popupMenu.inflate(R.menu.popup_menu_delete);

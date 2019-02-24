@@ -35,14 +35,22 @@ public class FragmentMarckSelect extends android.support.v4.app.Fragment {
         }
         listView.setOnItemClickListener((adapterView, view1, i, l) -> {
             if (TypeTimeTable.getType() == TypeTimeTable.curatorTimeTable && i == 0) {
-                TypeTimeTable.setType(TypeTimeTable.teacherTimeTable);
-                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentMarckSelect()).commit();
+                TypeTimeTable.setType(view.getContext(), TypeTimeTable.teacherTimeTable);
+                startFragmentThis();
                 return;
             }
-            TypeTimeTable.setGroup(adapterView.getItemAtPosition(i).toString());
-            Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentMarks()).commit();
+            TypeTimeTable.setGroup(view.getContext(), adapterView.getItemAtPosition(i).toString());
+            startFragment();
         });
         return view;
+    }
+
+    protected void startFragmentThis() {
+        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentMarckSelect()).commit();
+    }
+
+    protected void startFragment() {
+        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentMarks()).commit();
     }
 }
 

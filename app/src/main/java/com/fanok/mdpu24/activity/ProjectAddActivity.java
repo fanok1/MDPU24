@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class TaskAddActivity extends ResetPaswordActivity {
+public class ProjectAddActivity extends ResetPaswordActivity {
     private ProgressBar prograsBar;
     private boolean firstFocus = false;
 
@@ -31,11 +31,13 @@ public class TaskAddActivity extends ResetPaswordActivity {
     private TextInputLayout layoutName;
     private TextInputLayout layoutTask;
     private TextInputLayout layoutDate;
+    private TextInputLayout layoutPredmet;
 
     private TextInputEditText group;
     private TextInputEditText name;
     private TextInputEditText task;
     private TextInputEditText date;
+    private TextInputEditText predmet;
 
     private int n;
 
@@ -54,6 +56,9 @@ public class TaskAddActivity extends ResetPaswordActivity {
             case 3:
                 date.setText(RegistrationActivity.groupName);
                 break;
+            case 4:
+                predmet.setText(RegistrationActivity.groupName);
+                break;
         }
 
         n = 0;
@@ -64,7 +69,7 @@ public class TaskAddActivity extends ResetPaswordActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task_add);
+        setContentView(R.layout.activity_project_add);
         n = 0;
         RegistrationActivity.groupName = "";
         Slidr.attach(this);
@@ -77,16 +82,19 @@ public class TaskAddActivity extends ResetPaswordActivity {
         layoutName = findViewById(R.id.layoutName);
         layoutTask = findViewById(R.id.layoutTask);
         layoutDate = findViewById(R.id.layoutDate);
+        layoutPredmet = findViewById(R.id.layoutPredmet);
         group = findViewById(R.id.group);
         name = findViewById(R.id.name);
         task = findViewById(R.id.task);
         date = findViewById(R.id.date);
+        predmet = findViewById(R.id.predmet);
         prograsBar = findViewById(R.id.progress);
         Button button = findViewById(R.id.button);
 
 
         group.setShowSoftInputOnFocus(false);
         name.setShowSoftInputOnFocus(false);
+        predmet.setShowSoftInputOnFocus(false);
         date.setShowSoftInputOnFocus(false);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
@@ -106,6 +114,32 @@ public class TaskAddActivity extends ResetPaswordActivity {
             }
         });
         group.setOnClickListener(view -> showPopup(1, view, getResources().getString(R.string.server_api) + "get_groups_student.php"));
+
+        predmet.setOnFocusChangeListener((view, b) -> {
+            if (b) {
+                if (group.getText().toString().isEmpty()) {
+                    layoutPredmet.setErrorEnabled(true);
+                    layoutPredmet.setError(view.getResources().getString(R.string.error_group_is_empty));
+                } else {
+                    layoutPredmet.setErrorEnabled(false);
+                    showPopup(4, view, getResources().getString(R.string.server_api) + "get_marks_predmet.php");
+                }
+            } else {
+                if (predmet.getText().toString().isEmpty()) {
+                    layoutPredmet.setErrorEnabled(true);
+                    layoutPredmet.setError(view.getResources().getString(R.string.error_required));
+                }
+            }
+        });
+        predmet.setOnClickListener(view -> {
+            if (group.getText().toString().isEmpty()) {
+                layoutPredmet.setErrorEnabled(true);
+                layoutPredmet.setError(view.getResources().getString(R.string.error_group_is_empty));
+            } else {
+                layoutPredmet.setErrorEnabled(false);
+                showPopup(4, view, getResources().getString(R.string.server_api) + "get_marks_predmet.php");
+            }
+        });
 
         name.setOnFocusChangeListener((view, b) -> {
             if (b) {
@@ -177,6 +211,10 @@ public class TaskAddActivity extends ResetPaswordActivity {
                 layoutName.setErrorEnabled(true);
                 layoutName.setError(view.getResources().getString(R.string.error_required));
             }
+            if (predmet.getText().toString().isEmpty()) {
+                layoutPredmet.setErrorEnabled(true);
+                layoutPredmet.setError(view.getResources().getString(R.string.error_required));
+            }
             if (dateEnd == null || date.getText().toString().isEmpty() || dateEnd.before(new Date())) {
                 layoutDate.setErrorEnabled(true);
                 layoutDate.setError(view.getResources().getString(R.string.error_date));
@@ -185,14 +223,15 @@ public class TaskAddActivity extends ResetPaswordActivity {
                 layoutTask.setErrorEnabled(true);
                 layoutTask.setError(view.getResources().getString(R.string.error_required));
             }
-            if (layoutName.isErrorEnabled() || layoutTask.isErrorEnabled() || layoutDate.isErrorEnabled())
+            if (layoutName.isErrorEnabled() || layoutTask.isErrorEnabled() || layoutDate.isErrorEnabled() || layoutPredmet.isErrorEnabled())
                 return;
 
-            String url = view.getResources().getString(R.string.server_api) + "task_add.php";
+            String url = view.getResources().getString(R.string.server_api) + "project_add.php";
             InsertDataInSql inSql = new InsertDataInSql(view, url);
 
             if (inSql.isOnline()) {
                 inSql.setData("name", name.getText().toString());
+                inSql.setData("predmet", predmet.getText().toString());
                 assert dateEnd != null;
                 inSql.setData("date", String.valueOf(dateEnd.getTime()));
                 inSql.setData("task", task.getText().toString());
@@ -213,7 +252,7 @@ public class TaskAddActivity extends ResetPaswordActivity {
         if (n != 3) {
             intent = new Intent(view.getContext(), PopupGroupSearchActivity.class);
             intent.putExtra("url", url);
-            intent.putExtra("type", "");
+            intent.putExtra("type", TypeTimeTable.getType());
         } else intent = new Intent(view.getContext(), PopupDatePicker.class);
         startActivity(intent);
     }

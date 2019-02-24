@@ -1,5 +1,10 @@
 package com.fanok.mdpu24;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import static android.content.Context.MODE_PRIVATE;
+
 public class TypeTimeTable {
     public static final int studentTimeTable = 0;
     public static final int teacherTimeTable = 1;
@@ -13,7 +18,11 @@ public class TypeTimeTable {
         return group;
     }
 
-    public static void setGroup(String group) {
+    public static void setGroup(Context context, String group) {
+        SharedPreferences preferences = context.getSharedPreferences(StartActivity.PREF_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("TypeTimeTable_group", group);
+        editor.apply();
         TypeTimeTable.group = group;
     }
 
@@ -21,7 +30,11 @@ public class TypeTimeTable {
         return type;
     }
 
-    public static void setType(int type) {
+    public static void setType(Context context, int type) {
+        SharedPreferences preferences = context.getSharedPreferences(StartActivity.PREF_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("TypeTimeTable_type", type);
+        editor.apply();
         TypeTimeTable.type = type;
     }
 }

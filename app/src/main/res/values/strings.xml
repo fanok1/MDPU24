@@ -104,7 +104,8 @@
     <string name="error_group_is_empty">Поле \"группа\" не должно быть пустым</string>
     <string name="prompt_date_end">Дата завершения</string>
     <string name="error_date">Не верно введенная дата</string>
-    <string name="delete">Удалить</string>>
+    <string name="delete">Удалить</string>
+    <string name="projects">Проекты</string>>
 
 
 </resources>

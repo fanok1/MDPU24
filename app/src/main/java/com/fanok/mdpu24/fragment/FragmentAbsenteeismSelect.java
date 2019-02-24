@@ -32,7 +32,7 @@ public class FragmentAbsenteeismSelect extends android.support.v4.app.Fragment {
             dowland.execute();
         }
         listView.setOnItemClickListener((adapterView, view1, i, l) -> {
-            TypeTimeTable.setGroup(adapterView.getItemAtPosition(i).toString());
+            TypeTimeTable.setGroup(view.getContext(), adapterView.getItemAtPosition(i).toString());
             Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentAbsenteeism()).commit();
         });
         return view;

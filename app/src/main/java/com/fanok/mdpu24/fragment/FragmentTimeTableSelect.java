@@ -34,10 +34,10 @@ public class FragmentTimeTableSelect extends android.support.v4.app.Fragment {
         }
         listView.setOnItemClickListener((adapterView, view1, i, l) -> {
             if (i == 0) {
-                TypeTimeTable.setType(TypeTimeTable.teacherTimeTable);
+                TypeTimeTable.setType(view.getContext(), TypeTimeTable.teacherTimeTable);
             } else {
-                TypeTimeTable.setType(TypeTimeTable.curatorTimeTable);
-                TypeTimeTable.setGroup(adapterView.getItemAtPosition(i).toString());
+                TypeTimeTable.setType(view.getContext(), TypeTimeTable.curatorTimeTable);
+                TypeTimeTable.setGroup(view.getContext(), adapterView.getItemAtPosition(i).toString());
             }
             Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentTimeTable()).commit();
         });

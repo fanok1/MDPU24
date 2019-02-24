@@ -23,6 +23,8 @@ import com.fanok.mdpu24.fragment.FragmentChatSelect;
 import com.fanok.mdpu24.fragment.FragmentMarckSelect;
 import com.fanok.mdpu24.fragment.FragmentMarks;
 import com.fanok.mdpu24.fragment.FragmentNewsUniversity;
+import com.fanok.mdpu24.fragment.FragmentProjects;
+import com.fanok.mdpu24.fragment.FragmentProjectsSelect;
 import com.fanok.mdpu24.fragment.FragmentStudentInfo;
 import com.fanok.mdpu24.fragment.FragmentTask;
 import com.fanok.mdpu24.fragment.FragmentTimeTable;
@@ -97,6 +99,10 @@ public class MainActivity extends AppCompatActivity
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentTask()).commit();
                     navigationView.setCheckedItem(R.id.tasks);
                     break;
+                case 7:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentProjects()).commit();
+                    navigationView.setCheckedItem(R.id.projects);
+                    break;
                 case 0:
                 default:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentNewsUniversity()).commit();
@@ -128,10 +134,10 @@ public class MainActivity extends AppCompatActivity
             switch (level) {
                 case 1:
                 case 2:
-                    TypeTimeTable.setType(TypeTimeTable.studentTimeTable);
+                    TypeTimeTable.setType(this, TypeTimeTable.studentTimeTable);
                     break;
                 case 3:
-                    TypeTimeTable.setType(TypeTimeTable.teacherTimeTable);
+                    TypeTimeTable.setType(this, TypeTimeTable.teacherTimeTable);
                     break;
             }
 
@@ -144,16 +150,16 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.marks) {
             switch (level) {
                 case 1:
-                    TypeTimeTable.setType(TypeTimeTable.studentTimeTable);
+                    TypeTimeTable.setType(this, TypeTimeTable.studentTimeTable);
                     break;
                 case 2:
-                    TypeTimeTable.setType(TypeTimeTable.starostaTimeTable);
+                    TypeTimeTable.setType(this, TypeTimeTable.starostaTimeTable);
                     break;
                 case 3:
-                    TypeTimeTable.setType(TypeTimeTable.teacherTimeTable);
+                    TypeTimeTable.setType(this, TypeTimeTable.teacherTimeTable);
                     break;
                 case 4:
-                    TypeTimeTable.setType(TypeTimeTable.curatorTimeTable);
+                    TypeTimeTable.setType(this, TypeTimeTable.curatorTimeTable);
                     break;
             }
             if (level == 3 || level == 4) {
@@ -164,16 +170,16 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.absenteeism) {
             switch (level) {
                 case 1:
-                    TypeTimeTable.setType(TypeTimeTable.studentTimeTable);
+                    TypeTimeTable.setType(this, TypeTimeTable.studentTimeTable);
                     break;
                 case 2:
-                    TypeTimeTable.setType(TypeTimeTable.starostaTimeTable);
+                    TypeTimeTable.setType(this, TypeTimeTable.starostaTimeTable);
                     break;
                 case 3:
-                    TypeTimeTable.setType(TypeTimeTable.teacherTimeTable);
+                    TypeTimeTable.setType(this, TypeTimeTable.teacherTimeTable);
                     break;
                 case 4:
-                    TypeTimeTable.setType(TypeTimeTable.curatorTimeTable);
+                    TypeTimeTable.setType(this, TypeTimeTable.curatorTimeTable);
                     break;
             }
             if (level != 3) {
@@ -204,6 +210,25 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, SetingsActivity.class));
         } else if (id == R.id.info) {
             startActivity(new Intent(this, InfoActivity.class));
+        } else if (id == R.id.projects) {
+            switch (level) {
+                case 1:
+                    TypeTimeTable.setType(this, TypeTimeTable.studentTimeTable);
+                    break;
+                case 2:
+                    TypeTimeTable.setType(this, TypeTimeTable.starostaTimeTable);
+                    break;
+                case 3:
+                    TypeTimeTable.setType(this, TypeTimeTable.teacherTimeTable);
+                    break;
+                case 4:
+                    TypeTimeTable.setType(this, TypeTimeTable.curatorTimeTable);
+                    break;
+            }
+            if (level == 3 || level == 4) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentProjectsSelect()).commit();
+            } else
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentProjects()).commit();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -221,7 +246,7 @@ public class MainActivity extends AppCompatActivity
         String nameValue = mPref.getString("name", "");
         String loginValue = mPref.getString("login", "");
         String imageValue = mPref.getString("photo", "");
-        TypeTimeTable.setGroup(mPref.getString("groupName", ""));
+        TypeTimeTable.setGroup(this, mPref.getString("groupName", ""));
 
 
         login.setText(loginValue);

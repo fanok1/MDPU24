@@ -22,51 +22,54 @@ import android.view.ViewGroup;
 import com.fanok.mdpu24.R;
 import com.fanok.mdpu24.StartActivity;
 import com.fanok.mdpu24.TinyDB;
-import com.fanok.mdpu24.activity.RegistrationActivity;
-import com.fanok.mdpu24.adapter.PagerStudentInfoAdaptor;
-import com.fanok.mdpu24.dowland.DowlandStudentGroups;
+import com.fanok.mdpu24.TypeTimeTable;
+import com.fanok.mdpu24.activity.ProjectAddActivity;
+import com.fanok.mdpu24.adapter.PagerProjectAdaptor;
+import com.fanok.mdpu24.dowland.DowlandStudentTab;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 import static com.fanok.mdpu24.activity.ChatActivity.ACTION;
 
-public class FragmentStudentInfo extends android.support.v4.app.Fragment {
+public class FragmentProjects extends android.support.v4.app.Fragment {
 
-    private int level;
     private BroadcastReceiver br;
-    private SharedPreferences mPref;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_time_table, container, false);
-        mPref = view.getContext().getSharedPreferences(StartActivity.PREF_NAME, StartActivity.MODE_PRIVATE);
-        start(1);
+        SharedPreferences mPref = view.getContext().getSharedPreferences(StartActivity.PREF_NAME, StartActivity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mPref.edit();
+        editor.putInt("activity", 7);
+        editor.apply();
 
 
-        level = mPref.getInt("level", 0);
-        String login = mPref.getString("login", "");
+        int level = mPref.getInt("level", 0);
+        String name = mPref.getString("name", "");
         setHasOptionsMenu(true);
         TabLayout tab = view.findViewById(R.id.tabLayout);
         ViewPager pager = view.findViewById(R.id.viewPager);
         FragmentManager fm = getChildFragmentManager();
-        final String url = getResources().getString(R.string.server_api) + "get_groups_student.php";
+        final String url = getResources().getString(R.string.server_api) + "get_student_project.php";
 
-        DowlandStudentGroups dowland = getDowland(view, url, tab, pager, fm);
+        DowlandStudentTab dowland = new DowlandStudentTab(view, url, tab, pager, fm);
         if (dowland.isOnline()) {
-            dowland.setData("login", login);
+            dowland.setData("group", TypeTimeTable.getGroup());
+            dowland.setData("level", String.valueOf(level));
+            dowland.setData("name", name);
             dowland.setProgressBar(view.findViewById(R.id.progressBar));
             dowland.execute();
         } else {
             TinyDB tinyDB = new TinyDB(getContext());
-            ArrayList<String> groups = tinyDB.getListString("GroupsList");
-            if (groups.size() > 0) {
-                for (int i = 0; i < groups.size(); i++) {
-                    tab.addTab(tab.newTab().setText(groups.get(i)));
+            ArrayList<String> students = tinyDB.getListString("StudentList");
+            if (students.size() > 0) {
+                for (int i = 0; i < students.size(); i++) {
+                    tab.addTab(tab.newTab().setText(students.get(i)));
                 }
-                FragmentPagerAdapter pagerAdapter = getAdapter(fm, tab.getTabCount(), groups);
+                FragmentPagerAdapter pagerAdapter = new PagerProjectAdaptor(fm, tab.getTabCount(), students);
                 pager.setAdapter(pagerAdapter);
                 pager.setOffscreenPageLimit(pagerAdapter.getCount() > 1 ? pagerAdapter.getCount() - 1 : 1);
                 pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tab));
@@ -94,7 +97,12 @@ public class FragmentStudentInfo extends android.support.v4.app.Fragment {
         br = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                clearNotification(context);
+                NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                if (notificationManager != null) {
+                    notificationManager.cancel(3);
+                }
+                Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new FragmentProjects()).commit();
             }
         };
 
@@ -102,30 +110,6 @@ public class FragmentStudentInfo extends android.support.v4.app.Fragment {
         Objects.requireNonNull(getContext()).registerReceiver(br, intFilt);
 
         return view;
-    }
-
-    protected void clearNotification(Context context) {
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        if (notificationManager != null) {
-            notificationManager.cancel(1);
-        }
-        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new FragmentStudentInfo()).commit();
-    }
-
-    protected DowlandStudentGroups getDowland(View view, String url, TabLayout tab, ViewPager pager, FragmentManager fm) {
-        return new DowlandStudentGroups(view, url, tab, pager, fm);
-    }
-
-    protected FragmentPagerAdapter getAdapter(FragmentManager fm, int tabCount, ArrayList<String> groups) {
-        return new PagerStudentInfoAdaptor(fm, tabCount, groups);
-    }
-
-    protected void start(int n) {
-
-        SharedPreferences.Editor editor = mPref.edit();
-        editor.putInt("activity", n);
-        editor.apply();
     }
 
     @Override
@@ -138,19 +122,12 @@ public class FragmentStudentInfo extends android.support.v4.app.Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.plus_button_menu, menu);
         menu.getItem(0).setOnMenuItemClickListener(menuItem -> {
-            if (level != 4) return false;
-            startActivity(getIntent());
+            if (TypeTimeTable.getType() != TypeTimeTable.teacherTimeTable) return false;
+            Intent intent = new Intent(getContext(), ProjectAddActivity.class);
+            startActivity(intent);
             return false;
         });
         super.onCreateOptionsMenu(menu, inflater);
     }
-
-    protected Intent getIntent() {
-        Intent intent = new Intent(getContext(), RegistrationActivity.class);
-        intent.putExtra("login", "");
-        intent.putExtra("type", "1");
-        return intent;
-    }
-
 }
 

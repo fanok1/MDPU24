@@ -48,8 +48,7 @@ public class DowlandStudentGroups extends DowladParent {
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        TinyDB tinyDB = new TinyDB(getView().getContext());
-        tinyDB.putListString("GroupsList", grouplist);
+        insertTotinyDB("GroupsList");
         for (int i = 0; i < grouplist.size(); i++) {
             tab.addTab(tab.newTab().setText(grouplist.get(i)));
         }
@@ -62,6 +61,11 @@ public class DowlandStudentGroups extends DowladParent {
 
     protected FragmentPagerAdapter getAdapter(FragmentManager fm, int tabCount, ArrayList<String> groups) {
         return new PagerStudentInfoAdaptor(fm, tabCount, groups);
+    }
+
+    protected void insertTotinyDB(String name) {
+        TinyDB tinyDB = new TinyDB(getView().getContext());
+        tinyDB.putListString(name, grouplist);
     }
 }
 

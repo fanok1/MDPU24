@@ -48,6 +48,8 @@ public class StartActivity extends AppCompatActivity {
 
         if (login.isEmpty()) startActivity(new Intent(this, LoginActivity.class));
         else {
+            TypeTimeTable.setGroup(this, mPref.getString("TypeTimeTable_group", ""));
+            TypeTimeTable.setType(this, mPref.getInt("TypeTimeTable_type", 0));
             startActivity(new Intent(this, MainActivity.class));
         }
         finish();

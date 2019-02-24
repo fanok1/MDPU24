@@ -21,22 +21,34 @@ public class ChatService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         if (remoteMessage.getNotification() != null) {
             String title = remoteMessage.getData().get("title");
+            SharedPreferences mPref = getSharedPreferences(StartActivity.PREF_NAME, StartActivity.MODE_PRIVATE);
+            //TypeTimeTable.setGroup(this, mPref.getString("TypeTimeTable_group", ""));
+            //TypeTimeTable.setType(this, mPref.getInt("TypeTimeTable_type", 0));
+            SharedPreferences.Editor editor = mPref.edit();
             int id = 100;
             Intent intent = new Intent(this, MainActivity.class);
-            switch (title) {
-                case "Новое сообщение":
-                    id = 0;
-                    intent = new Intent(this, ChatActivity.class);
-                    intent.putExtra("group", remoteMessage.getData().get("group"));
-                    SharedPreferences preferences = getSharedPreferences(StartActivity.PREF_NAME, MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putInt("activity", 1);
-                    editor.apply();
-                    break;
-                case "Новый пользователь":
-                    id = 1;
-                    break;
+            if (title != null) {
+                switch (title) {
+                    case "Новое сообщение":
+                        id = 0;
+                        intent = new Intent(this, ChatActivity.class);
+                        intent.putExtra("group", remoteMessage.getData().get("group"));
+                        break;
+                    case "Новый пользователь":
+                        editor.putInt("activity", 1);
+                        id = 1;
+                        break;
+                    case "Новое задание":
+                        editor.putInt("activity", 6);
+                        id = 2;
+                        break;
+                    case "Новый проект":
+                        editor.putInt("activity", 7);
+                        id = 3;
+                        break;
+                }
             }
+            editor.apply();
             sendNotification(remoteMessage.getNotification().getBody(), id, title, intent);
         }
     }
