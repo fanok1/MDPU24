@@ -26,8 +26,16 @@ public class TypeTimeTable {
         TypeTimeTable.group = group;
     }
 
+    public static void setGroup(String group) {
+        TypeTimeTable.group = group;
+    }
+
     public static int getType() {
         return type;
+    }
+
+    public static void setType(int type) {
+        TypeTimeTable.type = type;
     }
 
     public static void setType(Context context, int type) {

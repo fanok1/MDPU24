@@ -134,10 +134,10 @@ public class MainActivity extends AppCompatActivity
             switch (level) {
                 case 1:
                 case 2:
-                    TypeTimeTable.setType(this, TypeTimeTable.studentTimeTable);
+                    TypeTimeTable.setType(TypeTimeTable.studentTimeTable);
                     break;
                 case 3:
-                    TypeTimeTable.setType(this, TypeTimeTable.teacherTimeTable);
+                    TypeTimeTable.setType(TypeTimeTable.teacherTimeTable);
                     break;
             }
 
@@ -150,16 +150,16 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.marks) {
             switch (level) {
                 case 1:
-                    TypeTimeTable.setType(this, TypeTimeTable.studentTimeTable);
+                    TypeTimeTable.setType(TypeTimeTable.studentTimeTable);
                     break;
                 case 2:
-                    TypeTimeTable.setType(this, TypeTimeTable.starostaTimeTable);
+                    TypeTimeTable.setType(TypeTimeTable.starostaTimeTable);
                     break;
                 case 3:
-                    TypeTimeTable.setType(this, TypeTimeTable.teacherTimeTable);
+                    TypeTimeTable.setType(TypeTimeTable.teacherTimeTable);
                     break;
                 case 4:
-                    TypeTimeTable.setType(this, TypeTimeTable.curatorTimeTable);
+                    TypeTimeTable.setType(TypeTimeTable.curatorTimeTable);
                     break;
             }
             if (level == 3 || level == 4) {
@@ -170,16 +170,16 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.absenteeism) {
             switch (level) {
                 case 1:
-                    TypeTimeTable.setType(this, TypeTimeTable.studentTimeTable);
+                    TypeTimeTable.setType(TypeTimeTable.studentTimeTable);
                     break;
                 case 2:
-                    TypeTimeTable.setType(this, TypeTimeTable.starostaTimeTable);
+                    TypeTimeTable.setType(TypeTimeTable.starostaTimeTable);
                     break;
                 case 3:
-                    TypeTimeTable.setType(this, TypeTimeTable.teacherTimeTable);
+                    TypeTimeTable.setType(TypeTimeTable.teacherTimeTable);
                     break;
                 case 4:
-                    TypeTimeTable.setType(this, TypeTimeTable.curatorTimeTable);
+                    TypeTimeTable.setType(TypeTimeTable.curatorTimeTable);
                     break;
             }
             if (level != 3) {
@@ -213,16 +213,16 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.projects) {
             switch (level) {
                 case 1:
-                    TypeTimeTable.setType(this, TypeTimeTable.studentTimeTable);
+                    TypeTimeTable.setType(TypeTimeTable.studentTimeTable);
                     break;
                 case 2:
-                    TypeTimeTable.setType(this, TypeTimeTable.starostaTimeTable);
+                    TypeTimeTable.setType(TypeTimeTable.starostaTimeTable);
                     break;
                 case 3:
-                    TypeTimeTable.setType(this, TypeTimeTable.teacherTimeTable);
+                    TypeTimeTable.setType(TypeTimeTable.teacherTimeTable);
                     break;
                 case 4:
-                    TypeTimeTable.setType(this, TypeTimeTable.curatorTimeTable);
+                    TypeTimeTable.setType(TypeTimeTable.curatorTimeTable);
                     break;
             }
             if (level == 3 || level == 4) {
@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity
         String nameValue = mPref.getString("name", "");
         String loginValue = mPref.getString("login", "");
         String imageValue = mPref.getString("photo", "");
-        TypeTimeTable.setGroup(this, mPref.getString("groupName", ""));
+        TypeTimeTable.setGroup(mPref.getString("groupName", ""));
 
 
         login.setText(loginValue);

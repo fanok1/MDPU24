@@ -48,7 +48,7 @@ public class ProjectAddActivity extends ResetPaswordActivity {
         switch (n) {
             case 1:
                 group.setText(RegistrationActivity.groupName);
-                TypeTimeTable.setGroup(this, RegistrationActivity.groupName);
+                TypeTimeTable.setGroup(RegistrationActivity.groupName);
                 break;
             case 2:
                 name.setText(RegistrationActivity.groupName);
