@@ -20,6 +20,7 @@ import com.fanok.mdpu24.TypeTimeTable;
 import com.fanok.mdpu24.fragment.FragmentAbsenteeism;
 import com.fanok.mdpu24.fragment.FragmentAbsenteeismSelect;
 import com.fanok.mdpu24.fragment.FragmentChatSelect;
+import com.fanok.mdpu24.fragment.FragmentCurator;
 import com.fanok.mdpu24.fragment.FragmentMarckSelect;
 import com.fanok.mdpu24.fragment.FragmentMarks;
 import com.fanok.mdpu24.fragment.FragmentNewsUniversity;
@@ -102,6 +103,10 @@ public class MainActivity extends AppCompatActivity
                 case 7:
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentProjects()).commit();
                     navigationView.setCheckedItem(R.id.projects);
+                    break;
+                case 8:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentCurator()).commit();
+                    navigationView.setCheckedItem(R.id.curator);
                     break;
                 case 0:
                 default:
@@ -200,7 +205,9 @@ public class MainActivity extends AppCompatActivity
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentTask()).commit();
             }
         } else if (id == R.id.curator) {
-
+            if (level != 3) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentCurator()).commit();
+            }
         } else if (id == R.id.news) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new FragmentNewsUniversity()).commit();

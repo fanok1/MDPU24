@@ -127,6 +127,10 @@
             android:name=".activity.ProjectAddActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.SwipeOnClose" />
+        <activity
+            android:name=".activity.CuratorAddActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.SwipeOnClose" />
     </application>
 
 </manifest>
