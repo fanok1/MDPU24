@@ -31,7 +31,8 @@ public class FragmentTimeTableSelect extends android.support.v4.app.Fragment {
             dowland.setData("login", login);
             dowland.setProgressBar(view.findViewById(R.id.progressBar));
             dowland.execute();
-        }
+        } else
+            Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentTimeTable()).commit();
         listView.setOnItemClickListener((adapterView, view1, i, l) -> {
             if (i == 0) {
                 TypeTimeTable.setType(view.getContext(), TypeTimeTable.teacherTimeTable);

@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.fanok.mdpu24.R;
 import com.fanok.mdpu24.StartActivity;
@@ -75,6 +76,8 @@ public class PopupGroupSearchActivity extends AppCompatActivity {
             groups.setData("group", TypeTimeTable.getGroup());
             groups.setProgressBar(findViewById(R.id.progressBarGroup));
             groups.execute();
+        } else {
+            Toast.makeText(this, getResources().getString(R.string.error_no_internet_conection), Toast.LENGTH_LONG).show();
         }
 
         listView.setOnItemClickListener((adapterView, view, i, l) -> {

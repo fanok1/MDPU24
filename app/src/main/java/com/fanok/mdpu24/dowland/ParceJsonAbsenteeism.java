@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.fanok.mdpu24.Absenteeism;
 import com.fanok.mdpu24.ClickListnerAbsenteeism;
 import com.fanok.mdpu24.Dates;
+import com.fanok.mdpu24.Para;
 import com.fanok.mdpu24.R;
 import com.fanok.mdpu24.TypeTimeTable;
 import com.google.gson.JsonArray;
@@ -73,7 +74,7 @@ public class ParceJsonAbsenteeism extends AsyncTask<Void, Void, ArrayList<Absent
             for (int j = 0; j < absenteeisms.size(); j++) {
                 if (absenteeisms.get(j).getName().equals(name)) {
                     try {
-                        absenteeisms.get(j).setMark(jMarks.get("day").getAsString(), jMarks.get("mark").getAsInt());
+                        absenteeisms.get(j).setAbsenteeism(jMarks.get("day").getAsString(), jMarks.get("mark").getAsInt());
                         dates.setDates(jMarks.get("day").getAsString());
                         flag = true;
                     } catch (ParseException e) {
@@ -85,7 +86,7 @@ public class ParceJsonAbsenteeism extends AsyncTask<Void, Void, ArrayList<Absent
             if (!flag) {
                 Absenteeism mark = new Absenteeism(name);
                 try {
-                    mark.setMark(jMarks.get("day").getAsString(), jMarks.get("mark").getAsInt());
+                    mark.setAbsenteeism(jMarks.get("day").getAsString(), jMarks.get("mark").getAsInt());
                     dates.setDates(jMarks.get("day").getAsString());
                     absenteeisms.add(mark);
                 } catch (ParseException e) {
@@ -141,7 +142,7 @@ public class ParceJsonAbsenteeism extends AsyncTask<Void, Void, ArrayList<Absent
             firstColum.addView(row);
             row = new TableRow(context);
             row.setLayoutParams(lpRow);
-            HashMap<Date, Integer> marksForStudent = absenteeisms.get(i).getAbsenteeism();
+            HashMap<Date, Para> marksForStudent = absenteeisms.get(i).getAbsenteeism();
             for (int j = 0; j < dates.size(); j++) {
                 LinearLayout linearLayout = new LinearLayout(context);
                 linearLayout.setLayoutParams(lpRow);
@@ -149,8 +150,8 @@ public class ParceJsonAbsenteeism extends AsyncTask<Void, Void, ArrayList<Absent
                 for (int z = 1; z < 5; z++) {
                     TextView textView;
                     try {
-                        int mark = marksForStudent.get(dates.get(j));
-                        if (mark == z) textView = createTextView("н");
+                        if (marksForStudent.containsKey(dates.get(j)) && marksForStudent.get(dates.get(j)).conteins(z))
+                            textView = createTextView("н");
                         else textView = createTextView("");
                     } catch (RuntimeException ignored) {
                         textView = createTextView("");
@@ -159,7 +160,7 @@ public class ParceJsonAbsenteeism extends AsyncTask<Void, Void, ArrayList<Absent
                         textView.setOnClickListener(new ClickListnerAbsenteeism(absenteeisms.get(i).getName(), dates.get(j), String.valueOf(modul), z));
                     linearLayout.addView(textView);
                 }
-                row.addView(linearLayout, i);
+                row.addView(linearLayout);
             }
             table.addView(row);
         }

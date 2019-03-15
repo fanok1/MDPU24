@@ -51,6 +51,7 @@ public class FragmentProjects extends android.support.v4.app.Fragment {
         String name = mPref.getString("name", "");
         setHasOptionsMenu(true);
         TabLayout tab = view.findViewById(R.id.tabLayout);
+        tab.setTabMode(TabLayout.MODE_SCROLLABLE);
         ViewPager pager = view.findViewById(R.id.viewPager);
         FragmentManager fm = getChildFragmentManager();
         final String url = getResources().getString(R.string.server_api) + "get_student_project.php";

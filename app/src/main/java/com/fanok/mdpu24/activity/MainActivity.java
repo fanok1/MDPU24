@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity
         String nameValue = mPref.getString("name", "");
         String loginValue = mPref.getString("login", "");
         String imageValue = mPref.getString("photo", "");
-        TypeTimeTable.setGroup(mPref.getString("groupName", ""));
+        if (level != 3 && level != 4) TypeTimeTable.setGroup(mPref.getString("groupName", ""));
 
 
         login.setText(loginValue);

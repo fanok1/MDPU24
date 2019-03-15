@@ -27,13 +27,19 @@ public class Dates {
 
     public ArrayList<Date> sort() {
         ArrayList<Date> arrayList = new ArrayList<>(dates);
-        for (int i = 0; i < arrayList.size() - 1; i++) {
-            if (arrayList.get(i).after(arrayList.get(i + 1))) {
-                Date date = arrayList.get(i);
-                arrayList.set(i, arrayList.get(i + 1));
-                arrayList.set(i + 1, date);
+        boolean b = true;
+        while (b) {
+            b = false;
+            for (int i = 0; i < arrayList.size() - 1; i++) {
+                if (arrayList.get(i).getTime() > arrayList.get(i + 1).getTime()) {
+                    Date date = arrayList.get(i);
+                    arrayList.set(i, arrayList.get(i + 1));
+                    arrayList.set(i + 1, date);
+                    b = true;
+                }
             }
         }
+
         return arrayList;
     }
 }

@@ -10,18 +10,24 @@ public class Absenteeism {
 
     private static SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd", Locale.forLanguageTag("UA"));
     private String name;
-    private HashMap<Date, Integer> absenteeism = new HashMap<>();
+    private HashMap<Date, Para> absenteeism = new HashMap<>();
 
     public Absenteeism(String name) {
         this.name = name;
     }
 
 
-    public void setMark(String date, int absenteeism) throws ParseException {
-        this.absenteeism.put(ft.parse(date), absenteeism);
+    public void setAbsenteeism(String date, int absenteeism) throws ParseException {
+        if (this.absenteeism.containsKey(ft.parse(date))) {
+            this.absenteeism.get(ft.parse(date)).setPara(absenteeism);
+        } else {
+            Para p = new Para();
+            p.setPara(absenteeism);
+            this.absenteeism.put(ft.parse(date), p);
+        }
     }
 
-    public HashMap<Date, Integer> getAbsenteeism() {
+    public HashMap<Date, Para> getAbsenteeism() {
         return absenteeism;
     }
 
@@ -35,3 +41,4 @@ public class Absenteeism {
 
 
 }
+

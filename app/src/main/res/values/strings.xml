@@ -4,8 +4,7 @@
     <string name="prompt_login">Логин</string>
     <string name="prompt_password">Пароль</string>
     <string name="prompt_password_confirm">Подтвердите пароль</string>
-    <string name="prompt_first_name">Имя</string>
-    <string name="prompt_last_name">Фамилия</string>
+    <string name="prompt_first_name">Фамилия И.О.</string>
     <string name="prompt_phone">Телефон</string>
     <string name="prompt_email">Почта</string>
     <string name="prompt_remember_password">Востановить пароль</string>

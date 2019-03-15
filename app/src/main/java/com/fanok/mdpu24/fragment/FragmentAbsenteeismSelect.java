@@ -30,7 +30,8 @@ public class FragmentAbsenteeismSelect extends android.support.v4.app.Fragment {
             dowland.setData("login", login);
             dowland.setProgressBar(view.findViewById(R.id.progressBar));
             dowland.execute();
-        }
+        } else
+            Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentAbsenteeism()).commit();
         listView.setOnItemClickListener((adapterView, view1, i, l) -> {
             TypeTimeTable.setGroup(view.getContext(), adapterView.getItemAtPosition(i).toString());
             Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentAbsenteeism()).commit();

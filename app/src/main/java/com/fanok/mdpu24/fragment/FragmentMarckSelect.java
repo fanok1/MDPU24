@@ -32,7 +32,7 @@ public class FragmentMarckSelect extends android.support.v4.app.Fragment {
             dowland.setData("type", String.valueOf(TypeTimeTable.getType()));
             dowland.setProgressBar(view.findViewById(R.id.progressBar));
             dowland.execute();
-        }
+        } else startFragment();
         listView.setOnItemClickListener((adapterView, view1, i, l) -> {
             if (TypeTimeTable.getType() == TypeTimeTable.curatorTimeTable && i == 0) {
                 TypeTimeTable.setType(view.getContext(), TypeTimeTable.teacherTimeTable);

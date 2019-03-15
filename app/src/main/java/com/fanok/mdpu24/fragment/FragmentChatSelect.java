@@ -31,7 +31,7 @@ public class FragmentChatSelect extends android.support.v4.app.Fragment {
             dowland.setData("login", login);
             dowland.setProgressBar(view.findViewById(R.id.progressBar));
             dowland.execute();
-        }
+        } else startActivity(new Intent(getContext(), ChatActivity.class));
         listView.setOnItemClickListener((adapterView, view1, i, l) -> {
             TypeTimeTable.setGroup(view.getContext(), adapterView.getItemAtPosition(i).toString());
             startActivity(new Intent(getContext(), ChatActivity.class));
