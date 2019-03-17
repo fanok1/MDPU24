@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -46,7 +46,8 @@ public class FragmentMarks extends android.support.v4.app.Fragment {
         predmet.setText(RegistrationActivity.groupName);
 
         if (!RegistrationActivity.groupName.isEmpty()) {
-            FragmentPagerAdapter pagerAdapter = new PagerMrksAdapter(getChildFragmentManager(), tab.getTabCount(), RegistrationActivity.groupName);
+            FragmentStatePagerAdapter pagerAdapter = new PagerMrksAdapter(getChildFragmentManager(), tab.getTabCount(), RegistrationActivity.groupName);
+            pagerAdapter.notifyDataSetChanged();
             pager.setAdapter(pagerAdapter);
             pager.setOffscreenPageLimit(pagerAdapter.getCount() > 1 ? pagerAdapter.getCount() - 1 : 1);
             pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tab));

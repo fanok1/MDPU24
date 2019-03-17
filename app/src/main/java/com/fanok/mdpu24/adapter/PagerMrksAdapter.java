@@ -3,12 +3,12 @@ package com.fanok.mdpu24.adapter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.fanok.mdpu24.fragment.TabMarks;
 
 
-public class PagerMrksAdapter extends FragmentPagerAdapter {
+public class PagerMrksAdapter extends FragmentStatePagerAdapter {
 
     private int tabCount;
     private String lesson;

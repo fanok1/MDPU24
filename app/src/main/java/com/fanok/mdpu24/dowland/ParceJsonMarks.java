@@ -58,6 +58,7 @@ public class ParceJsonMarks extends AsyncTask<Void, Void, ArrayList<Marks>> {
         super.onPreExecute();
         if (progressBar != null) progressBar.setVisibility(ProgressBar.VISIBLE);
 
+
     }
 
     @Override
